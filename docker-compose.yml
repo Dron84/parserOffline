@@ -1,0 +1,26 @@
+version: "3"
+services:
+  mongo:
+    image: mongo
+    restart: on-failure
+    volumes:
+      - "./mongo/db:/data/db"
+  #    ports:
+  #      - "27017:27017"
+  #environment:
+  #  MONGO_INITDB_ROOT_USERNAME: root
+  #  MONGO_INITDB_ROOT_PASSWORD: And3rd242258
+  #  MONGO_INITDB_DATABASE: nadirparser
+  nadiroffline:
+    build: ./
+    environment:
+      #  MONGODB_PATH: mongodb://root:And3rd242258@mongo:27017/nadirparserOffline
+      MONGODB_PATH: mongodb://mongo:27017/nadirparserOffline
+    ports:
+      - "80:3000"
+    #      - "33333:33333"
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    restart: on-failure
