@@ -16,6 +16,8 @@ services:
     environment:
       #  MONGODB_PATH: mongodb://root:And3rd242258@mongo:27017/nadirparserOffline
       MONGODB_PATH: mongodb://mongo:27017/nadirparserOffline
+    volumes:
+      - "./:/server"
     ports:
       - "80:3000"
     #      - "33333:33333"
