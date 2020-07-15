@@ -182,11 +182,18 @@ export default {
         );
         return team;
       };
-
+      const getMatches = () => {
+        matches.teamA = sortTeamMatches(teamA);
+        matches.teamB = sortTeamMatches(teamB);
+        return matches;
+      };
       // teamB.matches = teamB.matches.reverse();
-      matches.teamA = sortTeamMatches(teamA);
-      matches.teamB = sortTeamMatches(teamB);
-      return matches;
+      return (
+        matches !== undefined &&
+        matches.teamA !== undefined &&
+        matches.teamB !== undefined &&
+        getMatches()
+      );
     }
   },
   props: {
