@@ -163,10 +163,15 @@
         <div class="columns" v-if="cards">{{ rows["2nd-yellow-cards"] }}</div>
         <div class="columns" v-if="cards">{{ rows["red-cards"] }}</div>
         <!--:class="{'max_price': rows.price.max }"-->
-        <div
+        <priceSelecter
           class="columns"
           :class="[getMaxPrice(rows.shirtnumber) ? 'max_price' : '']"
-        >{{ getPlayerPrice(rows.shirtnumber) }}</div>
+          :rowPrice="getPlayerPrice(rows.shirtnumber)"
+          :row="rows"
+          :priceList="lineupPrice"
+          @changePrice="$emit('changePrice', $event)"
+        />
+
         <div class="columns" v-if="players">
           <span
             class="ico"
@@ -279,10 +284,15 @@
         <div class="columns" v-if="cards">{{ rows["2nd-yellow-cards"] }}</div>
         <div class="columns" v-if="cards">{{ rows["red-cards"] }}</div>
         <!--:class="{'max_price': rows.price.max }"-->
-        <div
+        <priceSelecter
           class="columns"
           :class="[getMaxPrice(rows.shirtnumber) ? 'max_price' : '']"
-        >{{ getPlayerPrice(rows.shirtnumber) }}</div>
+          :rowPrice="getPlayerPrice(rows.shirtnumber)"
+          :row="rows"
+          :priceList="lineupPrice"
+          @changePrice="$emit('changePrice', $event)"
+        />
+
         <div class="columns" v-if="players">
           <span
             class="ico"
@@ -367,6 +377,7 @@ import addListBox from "@/components/addListBox";
 import switches from "@/components/switches.vue";
 import preloader from "@/components/preloader";
 import playerStatus from "@/components/playerStatus";
+import priceSelecter from "@/components/priceSelecter";
 
 export default {
   name: "squadTable",
@@ -378,7 +389,8 @@ export default {
     addListBox,
     switches,
     preloader,
-    playerStatus
+    playerStatus,
+    priceSelecter
   },
   data: () => ({
     numeral,

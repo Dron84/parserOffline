@@ -40,8 +40,8 @@ const store = new Vuex.Store({
                 const squadB = obj.teamB.squad.sort(
                     (a, b) => b["game-minutes"] - a["game-minutes"]
                 );
-                state.match.teamA.squad = squadA;
-                state.match.teamB.squad = squadB;
+                state.match.teamA.squad = [...squadA];
+                state.match.teamB.squad = [...squadB];
             }
         },
         SET_PRICE(state, obj) {
@@ -137,6 +137,7 @@ const store = new Vuex.Store({
             };
             const MapSquad = (squad, id) => {
                 squad.map((item) => {
+                    item.price = localStorage.getItem(`PP_${item.name.toLowerCase().replace(/\s/,'_')}::${item.shirtnumber}`)
                     item.black = getBoolean(getStorage("COLOR", id, item, "black"));
                     item.blue = getBoolean(getStorage("COLOR", id, item, "blue"));
                     item.lightblue = getStorage("COLOR", id, item, "lightblue")
@@ -154,7 +155,9 @@ const store = new Vuex.Store({
 
             state.commit("SET_MATCH", match);
         },
-
+        async CHANGE_PRICE(state, obj) {
+            localStorage.setItem(`PP_${obj.player.name.toLowerCase().replace(/\s/,'_')}::${obj.player.shirtnumber}`, obj.newPrice)
+        },
         async CLEAR_SAVED_COLOR(state, id) {
             const match = state.getters.matches;
             let team;

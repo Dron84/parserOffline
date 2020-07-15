@@ -8,8 +8,7 @@
         :class="item.setclass"
         :key="item.setclass"
         @click="changeStatus(item.setclass)"
-        >{{ name }}</span
-      >
+      >{{ name }}</span>
     </div>
   </div>
 </template>
@@ -46,6 +45,7 @@ export default {
 .boxes
   position: relative
   width: 100%
+  justify-content: left !important
   .box
     width: 100%
     position: absolute

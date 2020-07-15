@@ -21,6 +21,7 @@
       @yellowCard="yellowCard(matches.teamA, $event)"
       @setMatchSquad="setMatchSquad(matches.teamA, $event)"
       :matchCount="matchCount"
+      @changePrice="changePrice(matches.teamA, $event)"
     />
 
     <squadTable
@@ -44,6 +45,7 @@
       @yellowCard="yellowCard(matches.teamB, $event)"
       @setMatchSquad="setMatchSquad(matches.teamB, $event)"
       :matchCount="matchCount"
+      @changePrice="changePrice(matches.teamB, $event)"
     />
   </div>
 </template>
@@ -55,6 +57,24 @@ export default {
   name: "two_lineup",
   components: { squadTable },
   methods: {
+    changePrice(team, obj) {
+      console.log(team, obj);
+      const match = { ...this.matches };
+      team.squad.map(item => {
+        if (item.shirtnumber === obj.shirtnumber) {
+          item.price = obj.price;
+        }
+      });
+      console.log(team);
+      if (match.teamA._id === team._id) {
+        match.teamA = team;
+        this.$store.commit("SET_MATCH", match);
+      } else {
+        match.teamB = team;
+        this.$store.commit("SET_MATCH", match);
+      }
+      this.setSavedMathecs(match);
+    },
     setMatchSquad(team, obj) {
       const match = { ...this.matches };
       team.matches[obj.index] = obj.match;
@@ -113,7 +133,7 @@ export default {
         );
         return filtred.length > 0 ? filtred[0].squad_list : [];
       };
-      return this.$store.getters.price.length > 0
+      return !this.isEmptyObject(this.$store.getters.price)
         ? getPrice(this.$store.getters.price)
         : [];
     },
