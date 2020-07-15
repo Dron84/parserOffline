@@ -6,6 +6,7 @@
           <img :src="team.img_href" alt="teamlogo" />
           <h5>{{ teamName }}</h5>
         </a>
+        <span style="width: 60px;"></span>
       </div>
       <div class="listBox">
         <span class="ico" @click="listBoxShow = !listBoxShow">
@@ -62,6 +63,7 @@
         v-if="team.squad !== undefined"
         :key="index"
         :style="styleForRow"
+        :class="{'addBorder': addBorder}"
       >
         <div class="columns fs17px">{{ rows.shirtnumber }}</div>
         <playerStatus
@@ -181,6 +183,7 @@
         v-if="team.addsquad !== undefined"
         :key="index + rows.name"
         :style="styleForRow"
+        :class="{'addBorder': addBorder}"
       >
         <div class="columns fs17px">{{ rows.shirtnumber }}</div>
         <playerStatus
@@ -347,6 +350,7 @@
       <switches caption="Удалить игрока" v-model="players" />
       <switches caption="Добавить игрока" v-model="addPlayers" />
       <switches caption="Комментарий" v-model="comments" />
+      <switches caption="Границы" v-model="addBorder" />
     </div>
   </div>
 </template>
@@ -391,7 +395,8 @@ export default {
     playerData: {},
     playerLoader: false,
     cards: false,
-    blueButtons: false
+    blueButtons: false,
+    addBorder: false
   }),
   props: {
     id: "",
@@ -475,7 +480,6 @@ export default {
               .trim()
               .replace(/\w\.\s/, "")
               .split(" ");
-            console.log("name", name);
             if (name.length === 2) {
               return name[1];
             } else if (name.length === 3) {
@@ -486,14 +490,6 @@ export default {
           };
           const playerName = getName(player.name);
           const itemName = getName(item.name);
-          console.log(
-            "player.name",
-            player.name,
-            "playerName",
-            playerName,
-            "itemName",
-            itemName
-          );
           if (playerName === itemName) {
             8;
             if (item.squad === "squad") {
@@ -672,7 +668,7 @@ export default {
   display: grid
   justify-content: center
   align-content: start
-  margin: 0 20px
+  margin: 0 5px
   .captions
     display: flex
     // grid-template-columns: repeat(auto-fit, minmax(290px, 1fr))
@@ -703,7 +699,8 @@ export default {
       display: inline-grid
       width: auto
       height: 25px
-      border: 1px solid black
+      &.addBorder
+        border: 1px solid black
       .matches
         display: grid
         grid-template-columns: repeat(auto-fit, minmax(20px , 1fr))
