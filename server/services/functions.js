@@ -203,7 +203,7 @@ const teamParse = async (URL) => {
         // console.log("main", main);
         const matches = await lastMatch(data, main.name);
         // console.log("matches", matches);
-        const squad = await getSquad(encodeURI(URL));
+        const squad = await getSquad(encodeURI(`${URL}squad/`));
         // console.log("squad", squad);
         const obj = {
             _id: main.name.replace(/\s/, "_").toLowerCase(),

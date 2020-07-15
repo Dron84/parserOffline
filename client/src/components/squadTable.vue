@@ -4,13 +4,8 @@
       <div class="teamname">
         <a :href="teamHref" target="_blank">
           <img :src="team.img_href" alt="teamlogo" />
-          <h5>
-            {{ teamName }}
-          </h5>
+          <h5>{{ teamName }}</h5>
         </a>
-        <span class="ico" @click="copy(teamName)" title="Скопировать имя">
-          <img :src="copyImg" alt="" />
-        </span>
       </div>
       <div class="listBox">
         <span class="ico" @click="listBoxShow = !listBoxShow">
@@ -18,20 +13,12 @@
         </span>
       </div>
 
-      <a
-        :href="`${teamPrice.href}`"
-        target="_blank"
-        v-if="teamPrice !== undefined"
-      >
-        <h5 v-if="priceOfLineup !== null && priceOfLineup !== 0">
-          Цена лайнапа: €{{ numeral(priceOfLineup).format("0.00a") }}
-        </h5>
+      <a :href="`${teamPrice.href}`" target="_blank" v-if="teamPrice !== undefined">
+        <h5
+          v-if="priceOfLineup !== null && priceOfLineup !== 0"
+        >Цена лайнапа: €{{ numeral(priceOfLineup).format("0.00a") }}</h5>
       </a>
-      <a
-        :href="`${teamPrice.href}`"
-        target="_blank"
-        v-if="teamPrice !== undefined"
-      >
+      <a :href="`${teamPrice.href}`" target="_blank" v-if="teamPrice !== undefined">
         <h5>Цена команды: {{ teamPrice.total_market_value }}</h5>
       </a>
     </div>
@@ -53,9 +40,7 @@
             class="columns m12px w40"
             v-for="(item, index) in team.matches"
             :key="index"
-          >
-            {{ setMathesName(item) }}
-          </div>
+          >{{ setMathesName(item) }}</div>
         </div>
         <div class="columns">В</div>
         <div class="columns">П</div>
@@ -155,7 +140,7 @@
             :name="rows.name"
             :teamsId="id"
             v-else
-          /> -->
+          />-->
         </div>
         <div class="columns">{{ rows.age }}</div>
         <div class="columns">{{ rows.position }}</div>
@@ -165,34 +150,29 @@
         <div class="columns">{{ rows["subs-on-bench"] }}</div>
 
         <!--:class="{'max_goals': goal_max === rows.goals}"-->
-        <div class="columns" :class="[getGoals(rows.goals) ? 'max_goals' : '']">
-          {{ rows.goals }}
-        </div>
+        <div class="columns" :class="[getGoals(rows.goals) ? 'max_goals' : '']">{{ rows.goals }}</div>
         <div class="columns">{{ rows.assists }}</div>
         <div
           class="columns onHover"
           :class="{ yellowBorder: rows.yellowCardStatus }"
           @click="$emit('yellowCard', { data: !rows.yellowCardStatus, index })"
           v-if="cards"
-        >
-          {{ rows["yellow-cards"] }}
-        </div>
+        >{{ rows["yellow-cards"] }}</div>
         <div class="columns" v-if="cards">{{ rows["2nd-yellow-cards"] }}</div>
         <div class="columns" v-if="cards">{{ rows["red-cards"] }}</div>
         <!--:class="{'max_price': rows.price.max }"-->
         <div
           class="columns"
           :class="[getMaxPrice(rows.shirtnumber) ? 'max_price' : '']"
-        >
-          {{ getPlayerPrice(rows.shirtnumber) }}
-        </div>
+        >{{ getPlayerPrice(rows.shirtnumber) }}</div>
         <div class="columns" v-if="players">
           <span
             class="ico"
             style="position: relative; top: -4px;"
             @click="$emit('removePlayer', rows)"
-            ><img :src="trashImg" alt="Удалить" style="height: 15px;"
-          /></span>
+          >
+            <img :src="trashImg" alt="Удалить" style="height: 15px;" />
+          </span>
         </div>
       </div>
       <div
@@ -285,34 +265,29 @@
         <div class="columns">{{ rows["subs-on-bench"] }}</div>
 
         <!--:class="{'max_goals': goal_max === rows.goals}"-->
-        <div class="columns" :class="[getGoals(rows.goals) ? 'max_goals' : '']">
-          {{ rows.goals }}
-        </div>
+        <div class="columns" :class="[getGoals(rows.goals) ? 'max_goals' : '']">{{ rows.goals }}</div>
         <div class="columns">{{ rows.assists }}</div>
         <div
           class="columns onHover"
           :class="{ yellowBorder: rows.yellowCardStatus }"
           @click="$emit('yellowCard', { data: !rows.yellowCardStatus, index })"
           v-if="cards"
-        >
-          {{ rows["yellow-cards"] }}
-        </div>
+        >{{ rows["yellow-cards"] }}</div>
         <div class="columns" v-if="cards">{{ rows["2nd-yellow-cards"] }}</div>
         <div class="columns" v-if="cards">{{ rows["red-cards"] }}</div>
         <!--:class="{'max_price': rows.price.max }"-->
         <div
           class="columns"
           :class="[getMaxPrice(rows.shirtnumber) ? 'max_price' : '']"
-        >
-          {{ getPlayerPrice(rows.shirtnumber) }}
-        </div>
+        >{{ getPlayerPrice(rows.shirtnumber) }}</div>
         <div class="columns" v-if="players">
           <span
             class="ico"
             style="position: relative; top: -4px;"
             @click="$emit('removeAddPlayer', rows)"
-            ><img :src="trashImg" alt="Удалить" style="height: 15px;"
-          /></span>
+          >
+            <img :src="trashImg" alt="Удалить" style="height: 15px;" />
+          </span>
         </div>
       </div>
     </div>
@@ -334,17 +309,12 @@
           </div>
         </transition>
         <transition name="fade">
-          <select
-            class="form-control"
-            v-model="addPlayerMatch"
-            v-if="playerMatches.length > 0"
-          >
+          <select class="form-control" v-model="addPlayerMatch" v-if="playerMatches.length > 0">
             <option
               :value="index"
               v-for="(match, index) in playerMatches"
               :key="index"
-              >{{ match.season }} {{ match.team }}</option
-            >
+            >{{ match.season }} {{ match.team }}</option>
           </select>
         </transition>
         <transition name="fade">
@@ -352,29 +322,24 @@
             class="btn btn-success"
             @click="addPlayer()"
             v-if="playerMatches.length > 0 && addPlayerMatch !== null"
-          >
-            Добавить
-          </button>
+          >Добавить</button>
         </transition>
       </div>
     </div>
     <div class="comments" v-if="comments">
-      <textarea
-        :value="team.comment"
-        @change="$emit('setComment', $event.target.value)"
-      />
+      <textarea :value="team.comment" @change="$emit('setComment', $event.target.value)" />
     </div>
     <div class="footer">
-      <span class="ico" title="Status" @click="$emit('clearSavedStatus', id)"
-        ><img :src="trashImg" alt="delete"
-      /></span>
+      <span class="ico" title="Status" @click="$emit('clearSavedStatus', id)">
+        <img :src="trashImg" alt="delete" />
+      </span>
 
-      <span class="ico" title="Цвета" @click="$emit('clearSavedColor', id)"
-        ><img :src="trashImg" alt="delete"
-      /></span>
-      <span class="ico" title="LU" @click="$emit('clearSavedLU', id)"
-        ><img :src="trashImg" alt="delete"
-      /></span>
+      <span class="ico" title="Цвета" @click="$emit('clearSavedColor', id)">
+        <img :src="trashImg" alt="delete" />
+      </span>
+      <span class="ico" title="LU" @click="$emit('clearSavedLU', id)">
+        <img :src="trashImg" alt="delete" />
+      </span>
 
       <switches caption="BB" v-model="blueButtons" />
       <switches caption="NM" v-model="NM" />
@@ -398,7 +363,6 @@ import addListBox from "@/components/addListBox";
 import switches from "@/components/switches.vue";
 import preloader from "@/components/preloader";
 import playerStatus from "@/components/playerStatus";
-import copyImg from "../assets/img/copy.svg";
 
 export default {
   name: "squadTable",
@@ -414,7 +378,6 @@ export default {
   },
   data: () => ({
     numeral,
-    copyImg,
     trashImg,
     addListImg,
     listBoxShow: false,
@@ -508,7 +471,11 @@ export default {
       if (this.team.matches[matchNumber].squad !== undefined) {
         this.team.matches[matchNumber].squad.forEach(item => {
           const getName = name => {
-            name = name.replace(/\w\.\s/, "").split(" ");
+            name = name
+              .trim()
+              .replace(/\w\.\s/, "")
+              .split(" ");
+            console.log("name", name);
             if (name.length === 2) {
               return name[1];
             } else if (name.length === 3) {
@@ -519,6 +486,14 @@ export default {
           };
           const playerName = getName(player.name);
           const itemName = getName(item.name);
+          console.log(
+            "player.name",
+            player.name,
+            "playerName",
+            playerName,
+            "itemName",
+            itemName
+          );
           if (playerName === itemName) {
             8;
             if (item.squad === "squad") {
@@ -544,9 +519,6 @@ export default {
       } else {
         return "";
       }
-    },
-    async copy(text) {
-      await navigator.clipboard.writeText(text);
     },
     getAddedSquadClass(player, matchNumber) {
       let color;
