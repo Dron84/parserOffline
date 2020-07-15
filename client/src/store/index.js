@@ -117,18 +117,6 @@ const store = new Vuex.Store({
                 return data;
             }
         },
-        // Если заказчик передумает сохранять данные локально
-        // async SAVE_COLOR_TO_SERVER(state, obj) {
-        //   const { teamsId, id, color } = obj;
-        //   const { data } = await $axios.post(`color/${teamsId}/${id}/${color}`);
-        //   const match = state.getters.matches;
-        //   if (data._id === match.teamA._id) {
-        //     state.commit("SET_TEAM", { team: "teamA", data });
-        //   } else if (data._id === match.teamB._id) {
-        //     state.commit("SET_TEAM", { team: "teamB", data });
-        //   }
-        // },
-
         async GET_SAVED_COLOR(state) {
             const match = state.getters.matches;
             const getBoolean = (stringToBoolean) => {
@@ -151,12 +139,9 @@ const store = new Vuex.Store({
                 squad.map((item) => {
                     item.black = getBoolean(getStorage("COLOR", id, item, "black"));
                     item.blue = getBoolean(getStorage("COLOR", id, item, "blue"));
-                    item.lightblue = getBoolean(
-                        getStorage("COLOR", id, item, "lightblue")
-                    );
-
+                    item.lightblue = getStorage("COLOR", id, item, "lightblue")
                     item.LU = getStorage("LU", id, item);
-
+                    item.yellowCardStatus = getBoolean(getStorage('YC', id, item))
                     item.NM = getStorage("NM", id, item);
                     item.gamerStatus = Number(getStorage("gamerStatus", id, item));
                 });
@@ -286,6 +271,15 @@ const store = new Vuex.Store({
                     data
                 });
             }
+        },
+        async SAVE_YELLOW_CARD(state, obj) {
+            const setSorage = ({
+                team,
+                data
+            }) => {
+                localStorage.setItem(`YC_${team._id}::${team.squad[data.index].shirtnumber}::${team.squad[data.index].name}`, obj.data.data);
+            };
+            setSorage(obj)
         },
         async SAVE_STATUS(state, obj) {
             const {

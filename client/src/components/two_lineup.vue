@@ -158,9 +158,11 @@ export default {
       const match = { ...this.matches };
       if (match.teamA === team) {
         team.squad[data.index].yellowCardStatus = data.data;
+        this.$store.dispatch("SAVE_YELLOW_CARD", { team, data });
         this.$store.commit("SET_MATCH", match);
       } else {
         team.squad[data.index].yellowCardStatus = data.data;
+        this.$store.dispatch("SAVE_YELLOW_CARD", { team, data });
         this.$store.commit("SET_MATCH", match);
       }
       this.setSavedMathecs(match);
