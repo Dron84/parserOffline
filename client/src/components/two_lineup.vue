@@ -5,7 +5,6 @@
       <switches caption="Границы" v-model="addBorder" />
     </div>
     <div class="lineups_body">
-      <refreh_update />
       <squadTable
         :teamHref="matches.teamA.href"
         :team="matches.teamA"
@@ -65,7 +64,6 @@
 import squadTable from "./squadTable";
 import moment from "moment";
 import switches from "@/components/switches.vue";
-import refreh_update from "../components/refreshUpdate.vue";
 
 export default {
   name: "two_lineup",
@@ -73,7 +71,7 @@ export default {
     cards: false,
     addBorder: false
   }),
-  components: { squadTable, switches, refreh_update },
+  components: { squadTable, switches },
   methods: {
     changePrice(team, obj) {
       console.log(team, obj);
@@ -293,14 +291,4 @@ export default {
 
 .fs17px
   font-size: 17px
-.refreh_update
-  position: absolute
-  top: 0
-  right: 40px
-
-.refresh
-  width: 50px
-  height: 50px
-  img
-    height: 50px
 </style>

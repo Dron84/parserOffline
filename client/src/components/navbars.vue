@@ -27,7 +27,7 @@
         />
       </div>
     </div>
-
+    <refreh_update style="right: 70px; position: relative;" />
     <span
       @click="$emit('settingsShow')"
       class="nav-link onHover"
@@ -59,10 +59,11 @@ import exitImg from "../assets/img/exit.svg";
 import settingsImg from "../assets/img/settings.svg";
 import groupImg from "../assets/img/group.svg";
 import inputsForms from "../components/InputForms";
+import refreh_update from "../components/refreshUpdate.vue";
 
 export default {
   name: "navbars",
-  components: { inputsForms },
+  components: { inputsForms, refreh_update },
   data: () => ({
     // saveImg,
     // shotImg,
