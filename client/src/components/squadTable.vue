@@ -377,6 +377,7 @@ import switches from "@/components/switches.vue";
 import preloader from "@/components/preloader";
 import playerStatus from "@/components/playerStatus";
 import priceSelecter from "@/components/priceSelecter";
+import latinize from "latinize";
 
 export default {
   name: "squadTable",
@@ -484,43 +485,49 @@ export default {
     },
     getSquadClass(player, matchNumber) {
       let color;
+      const nameReg = /(\w)\.\s(\w+)|(\w+)\s(\w+)|(\w)\s(\w+)|(\w+)/i;
       if (this.team.matches[matchNumber].squad !== undefined) {
         this.team.matches[matchNumber].squad.forEach(item => {
           const getName = name => {
-            name = name
-              .trim()
-              .replace(/\w\.\s/, "")
-              .split(" ");
-            if (name.length === 2) {
-              return name[1];
-            } else if (name.length === 3) {
+            name = latinize(name);
+            // console.log(`name`, name);
+            name = name !== null && name.trim().match(nameReg);
+            // console.log(`name`, name);
+            if (!this.isEmptyObject(name[1]) && !this.isEmptyObject(name[2])) {
               return `${name[1]} ${name[2]}`;
+            } else if (
+              this.isEmptyObject(name[1]) &&
+              this.isEmptyObject(name[2]) &&
+              !this.isEmptyObject(name[3]) &&
+              !this.isEmptyObject(name[4])
+            ) {
+              const newName = name[3].slice(0, 1);
+              return `${newName} ${name[4]}`;
+            } else if (
+              this.isEmptyObject(name[1]) &&
+              this.isEmptyObject(name[2]) &&
+              this.isEmptyObject(name[3]) &&
+              this.isEmptyObject(name[4]) &&
+              !this.isEmptyObject(name[5]) &&
+              !this.isEmptyObject(name[6])
+            ) {
+              return `${name[5]} ${name[6]}`;
             } else {
-              return name[0];
+              return `${name[7]}`;
             }
           };
           const playerName = getName(player.name);
           const itemName = getName(item.name);
+
           if (playerName === itemName) {
-            8;
+            // console.log(`playerName`, playerName);
+            // console.log(`itemName`, itemName);
             if (item.squad === "squad") {
               color = "roundgreen";
             } else if (item.squad === "substitution") {
               color = "roundyellow";
             }
           }
-
-          // if (item.shirtnumber === 0) {
-
-          // } else {
-          //   if (item.shirtnumber === player.shirtnumber) {
-          //     if (item.squad === "squad") {
-          //       color = "roundgreen";
-          //     } else if (item.squad === "substitution") {
-          //       color = "roundyellow";
-          //     }
-          //   }
-          // }
         });
         return color;
       } else {

@@ -54,7 +54,9 @@
                     />
                   </td>
                   <td style="display: flex;align-items: center" class="onHover">
-                    <i class="ti-trash" @click="clearValues" title="Отчистить"></i>
+                    <span class="ico" @click="clearValues" title="Отчистить">
+                      <img :src="removeImg" alt="remove img" />
+                    </span>
                   </td>
                 </tr>
               </tbody>
