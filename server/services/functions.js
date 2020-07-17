@@ -93,16 +93,13 @@ const userList = async () => await usersSchema.find().exec()
 //login route functionality
 const LoginIn = async (UserInfo) => {
     const daysCookie = 14;
-    const hash = base64.encode(
-        UserInfo.email.trim().toLowerCase() + base64.decode(UserInfo.password)
-    );
     const info = await usersSchema
         .findOne({
             email: UserInfo.email.trim().toLowerCase(),
         })
         .exec();
     if (!isEmptyObject(info)) {
-        if (hash === info.password) {
+        if (hash(UserInfo.email, base64.decode(UserInfo.password)) === info.password) {
             const nowtime = Number((+new Date() / 1000).toFixed(0));
             const exptime = nowtime + daysCookie * (3600 * 24);
             info.password = 'FuckOFF'
