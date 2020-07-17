@@ -145,6 +145,7 @@ const store = new Vuex.Store({
                     item.yellowCardStatus = getBoolean(getStorage('YC', id, item))
                     item.NM = getStorage("NM", id, item);
                     item.gamerStatus = Number(getStorage("gamerStatus", id, item));
+                    item.playerStatus = localStorage.getItem(`playerStatus${id}::${item.shirtnumber}::${item.name}`);
                 });
             };
 
@@ -216,6 +217,7 @@ const store = new Vuex.Store({
                 name,
                 val
             } = obj;
+            console.log('obj', obj)
             localStorage.setItem(`playerStatus${teamsId}::${id}::${name}`, val);
         },
         async SAVE_COLOR(state, obj) {

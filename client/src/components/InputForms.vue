@@ -10,9 +10,7 @@
       />
     </div>
     <div class="flex">
-      <button type="button" class="btn btn-secondary" @click="goMatch">
-        GO
-      </button>
+      <button type="button" class="btn btn-secondary" @click="goMatch">GO</button>
     </div>
     <transition name="fade">
       <div class="form-group" v-if="addPriceTeamA">
@@ -27,13 +25,7 @@
     </transition>
     <transition name="fade">
       <div class="flex" v-if="addPriceTeamA && priceLinkTeamA !== ''">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          @click="AddPrice('teamA')"
-        >
-          GO
-        </button>
+        <button type="button" class="btn btn-secondary" @click="AddPrice('teamA')">GO</button>
       </div>
     </transition>
     <transition name="fade">
@@ -49,23 +41,12 @@
     </transition>
     <transition name="fade">
       <div class="flex" v-if="addPriceTeamB && priceLinkTeamB !== ''">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          @click="AddPrice('teamB')"
-        >
-          GO
-        </button>
+        <button type="button" class="btn btn-secondary" @click="AddPrice('teamB')">GO</button>
       </div>
     </transition>
 
     <div class="form-group">
-      <input
-        type="text"
-        class="form-control"
-        v-model="teamA"
-        placeholder="Команда A:"
-      />
+      <input type="text" class="form-control" v-model="teamA" placeholder="Команда A:" />
     </div>
 
     <div class="form-group">
@@ -79,9 +60,7 @@
     </div>
 
     <div class="flex">
-      <button type="button" class="btn btn-secondary" @click="goTeamAAndTeamB">
-        GO Team
-      </button>
+      <button type="button" class="btn btn-secondary" @click="goTeamAAndTeamB">GO Team</button>
     </div>
   </div>
 </template>
@@ -168,6 +147,7 @@ export default {
           url: this.teamB,
           team: this.what[2]
         });
+        this.$store.dispatch("GET_SAVED_COLOR");
         this.$store.dispatch("ADD_SAVED_MATCHES", { ...this.getMatch });
         this.teamA = "";
         this.teamB = "";
