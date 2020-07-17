@@ -377,7 +377,6 @@ import switches from "@/components/switches.vue";
 import preloader from "@/components/preloader";
 import playerStatus from "@/components/playerStatus";
 import priceSelecter from "@/components/priceSelecter";
-import latinize from "latinize";
 
 export default {
   name: "squadTable",
@@ -406,8 +405,7 @@ export default {
     playerMatches: [],
     playerData: {},
     playerLoader: false,
-    blueButtons: false,
-    nameReg: /(\w)\.\s(\w+)|(\w+)\s(\w+)|(\w)\s(\w+)|(\w+)/i
+    blueButtons: false
   }),
   props: {
     id: "",
@@ -484,34 +482,7 @@ export default {
     getGamerStatus(row) {
       return ` ${row.playerStatus} `;
     },
-    getName(name) {
-      name = latinize(name);
-      // console.log(`name`, name);
-      name = name !== null && name.trim().match(this.nameReg);
-      // console.log(`name`, name);
-      if (!this.isEmptyObject(name[1]) && !this.isEmptyObject(name[2])) {
-        return `${name[1]} ${name[2]}`;
-      } else if (
-        this.isEmptyObject(name[1]) &&
-        this.isEmptyObject(name[2]) &&
-        !this.isEmptyObject(name[3]) &&
-        !this.isEmptyObject(name[4])
-      ) {
-        const newName = name[3].slice(0, 1);
-        return `${newName} ${name[4]}`;
-      } else if (
-        this.isEmptyObject(name[1]) &&
-        this.isEmptyObject(name[2]) &&
-        this.isEmptyObject(name[3]) &&
-        this.isEmptyObject(name[4]) &&
-        !this.isEmptyObject(name[5]) &&
-        !this.isEmptyObject(name[6])
-      ) {
-        return `${name[5]} ${name[6]}`;
-      } else {
-        return `${name[7]}`;
-      }
-    },
+
     getSquadClass(player, matchNumber) {
       let color;
       if (this.team.matches[matchNumber].squad !== undefined) {
@@ -622,6 +593,9 @@ export default {
       }
       return this.MaxOnArray(goals);
     }
+  },
+  watched() {
+    const mt = this.team.matches;
   }
 };
 </script>

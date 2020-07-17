@@ -25,6 +25,12 @@ export default {
   computed: {
     price: {
       get() {
+        // console.log(
+        //   "this.row.price",
+        //   this.row.price,
+        //   "this.rowPrice",
+        //   this.rowPrice
+        // );
         return this.row.price === null || this.row.price === undefined
           ? this.rowPrice
           : this.row.price;
@@ -34,7 +40,7 @@ export default {
           player: this.row,
           newPrice: val
         });
-        this.$emit("changePrice", this.row);
+        this.$emit("changePrice", { player: this.row, data: val });
         this.box = false;
         this.$store.dispatch("GET_SAVED_COLOR");
       }

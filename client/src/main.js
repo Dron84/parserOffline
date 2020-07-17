@@ -11,6 +11,8 @@ import {
 } from "bootstrap-vue";
 import VueCookie from "vue-cookie";
 import base64 from "base-64";
+import latinize from "latinize";
+
 
 Vue.use(BootstrapVue);
 // Optionally install the BootstrapVue icon components plugin
@@ -22,17 +24,7 @@ if (reg.test(location.host)) {
 } else {
     Vue.config.productionTip = true;
 }
-Vue.prototype.isEmptyObject = (object) => {
-    if (object === null || object === undefined) {
-        return true;
-    } else {
-        if (Object.entries(object).length === 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-};
+Vue.prototype.isEmptyObject = (object) => object === null || object === undefined ? true : Object.entries(object).length === 0 ? true : false;
 Vue.prototype.$axios = $axios;
 Vue.prototype.$cookie = VueCookie;
 Vue.prototype.getNumber = (val) => {
@@ -64,9 +56,42 @@ Vue.prototype.getNumber = (val) => {
         return 0;
     }
 };
-Vue.prototype.MaxOnArray = (array) => {
-    return Math.max.apply(Math, array);
-};
+Vue.prototype.MaxOnArray = (array) => Math.max.apply(Math, array)
+
+Vue.prototype.getName = (name) => {
+    const nameReg = /(\w)\.\s(\w+)|(\w+)\s(\w+)|(\w)\s(\w+)|(\w+)/i
+    const isEmptyObject = (object) => object === null || object === undefined ? true : Object.entries(object).length === 0 ? true : false;
+    name = latinize(name);
+    console.log(`name`, name);
+    name = name !== null && name.trim().match(nameReg);
+    // console.log(`name`, name);
+    if (!isEmptyObject(name[1]) && !isEmptyObject(name[2])) {
+        return `${name[1]} ${name[2]}`;
+    } else if (
+        isEmptyObject(name[1]) &&
+        isEmptyObject(name[2]) &&
+        !isEmptyObject(name[3]) &&
+        !isEmptyObject(name[4])
+    ) {
+        const newName = name[3].slice(0, 1);
+        return `${newName} ${name[4]}`;
+    } else if (
+        isEmptyObject(name[1]) &&
+        isEmptyObject(name[2]) &&
+        isEmptyObject(name[3]) &&
+        isEmptyObject(name[4]) &&
+        !isEmptyObject(name[5]) &&
+        !isEmptyObject(name[6])
+    ) {
+        return `${name[5]} ${name[6]}`;
+    } else {
+        return `${name[7]}`;
+    }
+}
+
+
+
+
 
 if (
     VueCookie.get("token") !== "" &&
@@ -74,9 +99,7 @@ if (
     VueCookie.get("token") !== null
 ) {
     const nowtime = Number((+new Date() / 1000).toFixed(0));
-    const exptime = JSON.parse(
-        base64.decode(base64.decode(VueCookie.get("token")))
-    ).exptime;
+    const exptime = JSON.parse(base64.decode(base64.decode(VueCookie.get("token")))).exptime;
     if (nowtime < exptime) {
         Vue.prototype.$token = VueCookie.get("token");
     }
