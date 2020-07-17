@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import $axios from "../router/axios";
 import base64 from "base-64";
+import $cookie from 'vue-cookie';
 
 const isEmptyObject = (object) => {
     return object === null || object === undefined ? true : Object.entries(object).length === 0 ? true : false;
@@ -597,6 +598,9 @@ const store = new Vuex.Store({
         matchCount(state) {
             return state.matchCount;
         },
+        premissions(state) {
+            return JSON.parse(base64.decode(base64.decode($cookie.get('token')))).premission
+        }
     },
 });
 store.$axios = $axios;

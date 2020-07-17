@@ -166,6 +166,7 @@ export default {
         .get("/tm/added")
         .then(res => (this.teamName = res.data));
       this.getDatas();
+      this.clearValues();
       await this.$store.dispatch("GET_SERVER_PRICE");
     },
     async deleteTeam() {

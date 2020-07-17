@@ -32,8 +32,17 @@
       @click="$emit('settingsShow')"
       class="nav-link onHover"
       style="right: 70px; position: relative;"
+      v-if="premissions === 'admin'"
     >
       <img :src="settingsImg" alt="setting img" />
+    </span>
+    <span
+      @click="$emit('groupShow')"
+      class="nav-link onHover"
+      style="right: 70px; position: relative;"
+      v-if="premissions === 'admin'"
+    >
+      <img :src="groupImg" alt="group img" />
     </span>
 
     <span class="nav-link onHover" @click="exit()" style="right: 70px; position: relative;">
@@ -48,6 +57,7 @@
 import exitImg from "../assets/img/exit.svg";
 // import addListImg from "../assets/img/add_list.svg";
 import settingsImg from "../assets/img/settings.svg";
+import groupImg from "../assets/img/group.svg";
 import inputsForms from "../components/InputForms";
 
 export default {
@@ -58,7 +68,8 @@ export default {
     // shotImg,
     // addListImg,
     settingsImg,
-    exitImg
+    exitImg,
+    groupImg
   }),
   methods: {
     exit() {
@@ -80,6 +91,9 @@ export default {
       set(val) {
         this.$store.commit("matchCount", val);
       }
+    },
+    premissions() {
+      return this.$store.getters.premissions;
     }
   }
 };

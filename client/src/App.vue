@@ -1,9 +1,10 @@
 <template>
   <div id="app">
     <div class="main-layout" v-if="tokenState !== undefined">
-      <navbars @settingsShow="settingShow" :show="setting" />
+      <navbars @settingsShow="settingShow" :show="setting" @groupShow="groupShow" />
       <asides />
-      <tmName v-if="setting" />
+      <tmName v-if="setting && !group_show" />
+      <group v-else-if="group_show && !setting" />
       <router-view ref="routes" v-else />
       <img :src="images" alt v-if="images !== null" />
     </div>
@@ -18,17 +19,24 @@ import asides from "@/components/asides";
 import navbars from "@/components/navbars";
 import Login from "./login";
 import tmName from "./views/tm_Name";
+import group from "./views/group";
 
 export default {
   name: "App",
   data: () => ({
     images: null,
-    setting: false
+    setting: false,
+    group_show: false
   }),
-  components: { asides, navbars, Login, tmName },
+  components: { asides, navbars, Login, tmName, group },
   methods: {
     settingShow() {
       this.setting = !this.setting;
+      this.group_show = false;
+    },
+    groupShow() {
+      this.group_show = !this.group_show;
+      this.setting = false;
     }
   },
   computed: {

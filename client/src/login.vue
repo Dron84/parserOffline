@@ -22,10 +22,8 @@
         />
       </div>
 
-      <div class="form-group centrize m40">
-        <button type="submit" class="btn btn-primary" @click="loginin">
-          Войти
-        </button>
+      <div class="form-group centrize" style="margin-top: 20px !important; ">
+        <button type="submit" class="btn btn-primary" @click="loginin">Войти</button>
       </div>
       <p class="centrize m40" v-if="msg !== ''">{{ msg }}</p>
     </div>

@@ -35,6 +35,9 @@ const CORS = (req, res, next) => {
 const setLog = async (message, type = "log") => {
     console[type](message);
 };
+const hash = (email, password) => base64.encode(
+    email.trim().toLowerCase() + password
+);
 //add default user to DB
 const addDefUser = async () => {
     try {
@@ -42,22 +45,17 @@ const addDefUser = async () => {
         if (isEmptyObject(find)) {
             const users = [{
                     email: "dron84@gmail.com",
-                    password: "And3rd242258",
+                    password: hash("dron84@gmail.com", "And3rd242258"),
+                    premission: 'admin'
                 },
                 {
                     email: "gomersimpson909090@gmail.com",
-                    password: "gomersimpson2019",
+                    password: hash("gomersimpson909090@gmail.com", "gomersimpson2019"),
+                    premission: 'admin'
                 },
             ];
-            users.forEach((row) => {
-                const hash = base64.encode(
-                    row.email.trim().toLowerCase() + row.password
-                );
-                const create = new usersSchema({
-                    email: row.email.trim().toLowerCase(),
-                    password: hash,
-                });
-                create.save();
+            users.forEach(async (row) => {
+                await addUser(row)
                 setLog(`Users added: ${row.email}`, "log");
             });
         } else {
@@ -67,6 +65,29 @@ const addDefUser = async () => {
         setLog(`User not added: ${e.message}`, "error");
     }
 };
+
+const addUser = async (newUserObj) => {
+    try {
+        const {
+            email,
+            password
+        } = newUserObj
+        const passhash = hash(email, password)
+        const create = new usersSchema({
+            email,
+            password: passhash
+        });
+        return create.save();
+    } catch (e) {
+        throw e.message
+    }
+}
+const removeUser = async (id) => await usersSchema.deleteOne({
+    _id: id
+}).exec()
+
+const userList = async () => await usersSchema.find().exec()
+
 //login route functionality
 const LoginIn = async (UserInfo) => {
     const daysCookie = 14;
@@ -82,12 +103,14 @@ const LoginIn = async (UserInfo) => {
         if (hash === info.password) {
             const nowtime = Number((+new Date() / 1000).toFixed(0));
             const exptime = nowtime + daysCookie * (3600 * 24);
+            info.password = 'FuckOFF'
             return {
                 token: base64.encode(
                     base64.encode(
                         JSON.stringify({
                             email: info.email,
-                            exptime,
+                            premission: info.premission,
+                            exptime
                         })
                     )
                 ),
@@ -472,4 +495,7 @@ module.exports = {
     saveStatus,
     saveLineupStatus,
     addPlayer,
+    addUser,
+    userList,
+    removeUser
 };
