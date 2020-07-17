@@ -45,12 +45,12 @@ const addDefUser = async () => {
         if (isEmptyObject(find)) {
             const users = [{
                     email: "dron84@gmail.com",
-                    password: hash("dron84@gmail.com", "And3rd242258"),
+                    password: "And3rd242258",
                     premission: 'admin'
                 },
                 {
                     email: "gomersimpson909090@gmail.com",
-                    password: hash("gomersimpson909090@gmail.com", "gomersimpson2019"),
+                    password: "gomersimpson2019",
                     premission: 'admin'
                 },
             ];
@@ -99,6 +99,8 @@ const LoginIn = async (UserInfo) => {
         })
         .exec();
     if (!isEmptyObject(info)) {
+        console.log(`base64.decode(UserInfo.password)`, base64.decode(UserInfo.password))
+        console.log(`hash(UserInfo.email, base64.decode(UserInfo.password)) === info.password`, hash(UserInfo.email, base64.decode(UserInfo.password)) === info.password)
         if (hash(UserInfo.email, base64.decode(UserInfo.password)) === info.password) {
             const nowtime = Number((+new Date() / 1000).toFixed(0));
             const exptime = nowtime + daysCookie * (3600 * 24);
