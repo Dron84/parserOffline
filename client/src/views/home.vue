@@ -18,6 +18,7 @@
 <script>
 import preloader from "@/components/preloader";
 import two_lineup from "@/components/two_lineup";
+
 export default {
   name: "home",
   components: { two_lineup, preloader },

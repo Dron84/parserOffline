@@ -4,31 +4,30 @@ import home from "../views/home";
 
 Vue.use(VueRouter);
 
-const routes = [
-  {
-    path: "/",
-    name: "home",
-    meta: {
-      title: "Домашняя",
+const routes = [{
+        path: "/",
+        name: "home",
+        meta: {
+            title: "Домашняя",
+        },
+        component: home,
     },
-    component: home,
-  },
-  {
-    path: "/settings",
-    name: "settings",
-    meta: {
-      title: "Настройки",
-    },
-    component: function() {
-      return import("../views/tm_Name.vue");
-    },
-  },
+    // {
+    //   path: "/settings",
+    //   name: "settings",
+    //   meta: {
+    //     title: "Настройки",
+    //   },
+    //   component: function() {
+    //     return import("../views/tm_Name.vue");
+    //   },
+    // },
 ];
 
 const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes,
+    mode: "history",
+    base: process.env.BASE_URL,
+    routes,
 });
 
 export default router;

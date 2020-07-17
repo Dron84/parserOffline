@@ -1,10 +1,11 @@
 <template>
   <div id="app">
     <div class="main-layout" v-if="tokenState !== undefined">
-      <navbars />
+      <navbars @settingsShow="settingShow" :show="setting" />
       <asides />
       <router-view ref="routes" />
       <img :src="images" alt v-if="images !== null" />
+      <tmName v-if="setting" />
     </div>
     <div class="main-layout" v-else>
       <Login />
@@ -16,14 +17,20 @@
 import asides from "@/components/asides";
 import navbars from "@/components/navbars";
 import Login from "./login";
+import tmName from "./views/tm_Name";
 
 export default {
   name: "App",
   data: () => ({
-    images: null
+    images: null,
+    setting: false
   }),
-  components: { asides, navbars, Login },
-  methods: {},
+  components: { asides, navbars, Login, tmName },
+  methods: {
+    settingShow() {
+      this.setting = !this.setting;
+    }
+  },
   computed: {
     matches() {
       return this.$store.getters.matches;

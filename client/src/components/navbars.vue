@@ -3,43 +3,20 @@
     <!-- Brand -->
 
     <!-- Toggler/collapsibe Button -->
-    <button
+    <!-- <button
       class="navbar-toggler"
       :class="{ collapsed: !show }"
       type="button"
       @click="show = !show"
     >
       <span class="navbar-toggler-icon"></span>
-    </button>
+    </button>-->
 
     <!-- Navbar links -->
     <div class="collapse navbar-collapse" :class="{ show: show }">
-      <!-- <ul
-        class="navbar-nav"
-        v-if="!isEmptyObject(matches.teamA) && !isEmptyObject(matches.teamB)"
-      >
-        <li class="nav-item" v-for="link of route">
-        <router-link class="nav-link" :to="link.path">{{link.meta.title}}</router-link>
-        </li>
-        <li class="nav-item">
-          <span class="nav-link onHover" @click="$store.dispatch('ADD_SAVED_MATCHES',{...matches})">
-            <img :src="saveImg" alt="save img" />
-          </span>
-        </li>
-        <li class="nav-item">
-          <span class="nav-link onHover" @click="$emit('SavePicture')">
-            <img :src="shotImg" alt="shot img" />
-          </span>
-        </li>
-        <li class="nav-item">
-          <div class="nav-link onHover" @click="$emit('AddList')">
-            <img :src="addListImg" alt="add lineup list" />
-          </div>
-        </li>
-      </ul> -->
       <inputsForms />
-      <div class=" match-count">
-        <label for="">Кол-во. Матчей</label>
+      <div class="match-count">
+        <label for>Кол-во. Матчей</label>
         <input
           type="number"
           min="0"
@@ -52,18 +29,14 @@
     </div>
 
     <span
-      @click="goSettings"
+      @click="$emit('settingsShow')"
       class="nav-link onHover"
       style="right: 70px; position: relative;"
     >
       <img :src="settingsImg" alt="setting img" />
     </span>
 
-    <span
-      class="nav-link onHover"
-      @click="exit()"
-      style="right: 70px; position: relative;"
-    >
+    <span class="nav-link onHover" @click="exit()" style="right: 70px; position: relative;">
       <img :src="exitImg" alt="exit img" />
     </span>
   </nav>
@@ -81,7 +54,6 @@ export default {
   name: "navbars",
   components: { inputsForms },
   data: () => ({
-    show: false,
     // saveImg,
     // shotImg,
     // addListImg,
@@ -92,15 +64,10 @@ export default {
     exit() {
       this.$cookie.delete("token");
       location.reload();
-    },
-    goSettings() {
-      // console.log(this.$route.path);
-      if (this.$route.path === "/settings") {
-        this.$router.push({ path: "/" });
-      } else {
-        this.$router.push({ path: "/settings" });
-      }
     }
+  },
+  props: {
+    show: { type: Boolean, default: false }
   },
   computed: {
     matches() {
@@ -145,5 +112,5 @@ nav
     top: 7px
     margin-right: 10px
   .match-count-input
-    width: 90px 
+    width: 90px
 </style>
