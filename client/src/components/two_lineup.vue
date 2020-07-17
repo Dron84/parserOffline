@@ -1,61 +1,76 @@
 <template>
   <div class="two_lineups">
-    <squadTable
-      :teamHref="matches.teamA.href"
-      :team="matches.teamA"
-      :id="matches.teamA._id"
-      :teamName="matches.teamA.name"
-      :teamPrice="price(matches.teamA.name)"
-      :lineupPrice="priceSquadList(matches.teamA.name)"
-      @clearSavedColor="$emit('clearSavedColor', $event)"
-      @clearSavedLU="$emit('clearSavedLU', $event)"
-      @clearSavedStatus="$emit('clearSavedStatus', $event)"
-      @setComment="setComment(matches.teamA._id, matches, $event)"
-      @removePlayer="removePlayer(matches.teamA._id, $event)"
-      @removeAddPlayer="removeAddPlayer(matches.teamA._id, $event)"
-      @addPlayer="addPlayer(matches.teamA._id, $event)"
-      :priceOfLineup="
+    <div class="lineups_header">
+      <switches caption="Карты" v-model="cards" />
+      <switches caption="Границы" v-model="addBorder" />
+    </div>
+    <div class="lineups_body">
+      <squadTable
+        :teamHref="matches.teamA.href"
+        :team="matches.teamA"
+        :id="matches.teamA._id"
+        :teamName="matches.teamA.name"
+        :teamPrice="price(matches.teamA.name)"
+        :lineupPrice="priceSquadList(matches.teamA.name)"
+        @clearSavedColor="$emit('clearSavedColor', $event)"
+        @clearSavedLU="$emit('clearSavedLU', $event)"
+        @clearSavedStatus="$emit('clearSavedStatus', $event)"
+        @setComment="setComment(matches.teamA._id, matches, $event)"
+        @removePlayer="removePlayer(matches.teamA._id, $event)"
+        @removeAddPlayer="removeAddPlayer(matches.teamA._id, $event)"
+        @addPlayer="addPlayer(matches.teamA._id, $event)"
+        :priceOfLineup="
         selectLineupPrice(matches.teamA, priceSquadList(matches.teamA.name))
       "
-      @changePlayerStatus="changePlayerStatus(matches.teamA, $event)"
-      @yellowCard="yellowCard(matches.teamA, $event)"
-      @setMatchSquad="setMatchSquad(matches.teamA, $event)"
-      :matchCount="matchCount"
-      @changePrice="changePrice(matches.teamA, $event)"
-    />
+        @changePlayerStatus="changePlayerStatus(matches.teamA, $event)"
+        @yellowCard="yellowCard(matches.teamA, $event)"
+        @setMatchSquad="setMatchSquad(matches.teamA, $event)"
+        :matchCount="matchCount"
+        @changePrice="changePrice(matches.teamA, $event)"
+        :cards="cards"
+        :addBorder="addBorder"
+      />
 
-    <squadTable
-      :teamHref="matches.teamB.href"
-      :team="matches.teamB"
-      :id="matches.teamB._id"
-      :teamName="matches.teamB.name"
-      :teamPrice="price(matches.teamB.name)"
-      :lineupPrice="priceSquadList(matches.teamB.name)"
-      @clearSavedColor="$emit('clearSavedColor', $event)"
-      @clearSavedLU="$emit('clearSavedLU', $event)"
-      @clearSavedStatus="$emit('clearSavedStatus', $event)"
-      @setComment="setComment(matches.teamB._id, matches, $event)"
-      @removePlayer="removePlayer(matches.teamB._id, $event)"
-      @removeAddPlayer="removeAddPlayer(matches.teamB._id, $event)"
-      @addPlayer="addPlayer(matches.teamB._id, $event)"
-      :priceOfLineup="
+      <squadTable
+        :teamHref="matches.teamB.href"
+        :team="matches.teamB"
+        :id="matches.teamB._id"
+        :teamName="matches.teamB.name"
+        :teamPrice="price(matches.teamB.name)"
+        :lineupPrice="priceSquadList(matches.teamB.name)"
+        @clearSavedColor="$emit('clearSavedColor', $event)"
+        @clearSavedLU="$emit('clearSavedLU', $event)"
+        @clearSavedStatus="$emit('clearSavedStatus', $event)"
+        @setComment="setComment(matches.teamB._id, matches, $event)"
+        @removePlayer="removePlayer(matches.teamB._id, $event)"
+        @removeAddPlayer="removeAddPlayer(matches.teamB._id, $event)"
+        @addPlayer="addPlayer(matches.teamB._id, $event)"
+        :priceOfLineup="
         selectLineupPrice(matches.teamB, priceSquadList(matches.teamB.name))
       "
-      @changePlayerStatus="changePlayerStatus(matches.teamB, $event)"
-      @yellowCard="yellowCard(matches.teamB, $event)"
-      @setMatchSquad="setMatchSquad(matches.teamB, $event)"
-      :matchCount="matchCount"
-      @changePrice="changePrice(matches.teamB, $event)"
-    />
+        @changePlayerStatus="changePlayerStatus(matches.teamB, $event)"
+        @yellowCard="yellowCard(matches.teamB, $event)"
+        @setMatchSquad="setMatchSquad(matches.teamB, $event)"
+        :matchCount="matchCount"
+        @changePrice="changePrice(matches.teamB, $event)"
+        :cards="cards"
+        :addBorder="addBorder"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import squadTable from "./squadTable";
 import moment from "moment";
+import switches from "@/components/switches.vue";
 export default {
   name: "two_lineup",
-  components: { squadTable },
+  data: () => ({
+    cards: false,
+    addBorder: false
+  }),
+  components: { squadTable, switches },
   methods: {
     changePrice(team, obj) {
       console.log(team, obj);
@@ -226,12 +241,23 @@ export default {
 @import "../assets/vars"
 
 .two_lineups
-  display: flex
-  grid-gap: 40px
+  display: grid
+  grid-gap: 20px
   justify-content: left
   align-content: start
   position: relative
   padding: 30px 10px
+  grid-template-columns: 1fr
+  grid-template-rows: 1fr 50px
+  grid-template-areas: "body" "header"
+  .lineups_header
+    grid-area: header
+    justify-content: left
+    align-items: center
+    display: flex
+  .lineups_body
+    grid-area: body
+    display: flex
   .match_link
     position: absolute
     display: inline-flex

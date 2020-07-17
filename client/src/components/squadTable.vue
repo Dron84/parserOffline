@@ -356,11 +356,10 @@
 
       <switches caption="BB" v-model="blueButtons" />
       <switches caption="NM" v-model="NM" />
-      <switches caption="Карты" v-model="cards" />
+
       <switches caption="Удалить игрока" v-model="players" />
       <switches caption="Добавить игрока" v-model="addPlayers" />
       <switches caption="Комментарий" v-model="comments" />
-      <switches caption="Границы" v-model="addBorder" />
     </div>
   </div>
 </template>
@@ -406,9 +405,7 @@ export default {
     playerMatches: [],
     playerData: {},
     playerLoader: false,
-    cards: false,
-    blueButtons: false,
-    addBorder: false
+    blueButtons: false
   }),
   props: {
     id: "",
@@ -418,7 +415,9 @@ export default {
     teamHref: "",
     lineupPrice: null,
     priceOfLineup: { type: Number, default: null },
-    matchCount: { type: String }
+    matchCount: { type: String },
+    cards: { type: Boolean, default: false },
+    addBorder: { type: Boolean, default: false }
   },
   methods: {
     setMatchSquad(rows, index, val) {
@@ -680,7 +679,7 @@ export default {
   display: grid
   justify-content: center
   align-content: start
-  margin: 0 5px
+  margin: 0 20px
   .captions
     display: flex
     // grid-template-columns: repeat(auto-fit, minmax(290px, 1fr))
