@@ -70,12 +70,14 @@ const addUser = async (newUserObj) => {
     try {
         const {
             email,
-            password
+            password,
+            premission
         } = newUserObj
         const passhash = hash(email, password)
         const create = new usersSchema({
             email,
-            password: passhash
+            password: passhash,
+            premission
         });
         return create.save();
     } catch (e) {
