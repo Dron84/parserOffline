@@ -97,6 +97,7 @@ tm.get("/", async (req, res) => {
 });
 tm.delete("/:id", async (req, res) => {
     try {
+        // const find = await tm_name_Schema() //TODO
         const deleted = await tm_name_Schema
             .findByIdAndRemove(req.params.id)
             .exec();

@@ -165,8 +165,8 @@
         <!--:class="{'max_price': rows.price.max }"-->
         <priceSelecter
           class="columns"
-          :class="[getMaxPrice(rows.shirtnumber) ? 'max_price' : '']"
-          :rowPrice="getPlayerPrice(rows.shirtnumber)"
+          :class="[getMaxPrice(rows) ? 'max_price' : '']"
+          :rowPrice="getPlayerPrice(rows)"
           :row="rows"
           :priceList="lineupPrice"
           @changePrice="$emit('changePrice', $event)"
@@ -286,8 +286,8 @@
         <!--:class="{'max_price': rows.price.max }"-->
         <priceSelecter
           class="columns"
-          :class="[getMaxPrice(rows.shirtnumber) ? 'max_price' : '']"
-          :rowPrice="getPlayerPrice(rows.shirtnumber)"
+          :class="[getMaxPrice(rows) ? 'max_price' : '']"
+          :rowPrice="getPlayerPrice(rows)"
           :row="rows"
           :priceList="lineupPrice"
           @changePrice="$emit('changePrice', $event)"
@@ -406,7 +406,8 @@ export default {
     playerMatches: [],
     playerData: {},
     playerLoader: false,
-    blueButtons: false
+    blueButtons: false,
+    nameReg: /(\w)\.\s(\w+)|(\w+)\s(\w+)|(\w)\s(\w+)|(\w+)/i
   }),
   props: {
     id: "",
@@ -483,45 +484,41 @@ export default {
     getGamerStatus(row) {
       return ` ${row.playerStatus} `;
     },
+    getName(name) {
+      name = latinize(name);
+      // console.log(`name`, name);
+      name = name !== null && name.trim().match(this.nameReg);
+      // console.log(`name`, name);
+      if (!this.isEmptyObject(name[1]) && !this.isEmptyObject(name[2])) {
+        return `${name[1]} ${name[2]}`;
+      } else if (
+        this.isEmptyObject(name[1]) &&
+        this.isEmptyObject(name[2]) &&
+        !this.isEmptyObject(name[3]) &&
+        !this.isEmptyObject(name[4])
+      ) {
+        const newName = name[3].slice(0, 1);
+        return `${newName} ${name[4]}`;
+      } else if (
+        this.isEmptyObject(name[1]) &&
+        this.isEmptyObject(name[2]) &&
+        this.isEmptyObject(name[3]) &&
+        this.isEmptyObject(name[4]) &&
+        !this.isEmptyObject(name[5]) &&
+        !this.isEmptyObject(name[6])
+      ) {
+        return `${name[5]} ${name[6]}`;
+      } else {
+        return `${name[7]}`;
+      }
+    },
     getSquadClass(player, matchNumber) {
       let color;
-      const nameReg = /(\w)\.\s(\w+)|(\w+)\s(\w+)|(\w)\s(\w+)|(\w+)/i;
       if (this.team.matches[matchNumber].squad !== undefined) {
         this.team.matches[matchNumber].squad.forEach(item => {
-          const getName = name => {
-            name = latinize(name);
-            // console.log(`name`, name);
-            name = name !== null && name.trim().match(nameReg);
-            // console.log(`name`, name);
-            if (!this.isEmptyObject(name[1]) && !this.isEmptyObject(name[2])) {
-              return `${name[1]} ${name[2]}`;
-            } else if (
-              this.isEmptyObject(name[1]) &&
-              this.isEmptyObject(name[2]) &&
-              !this.isEmptyObject(name[3]) &&
-              !this.isEmptyObject(name[4])
-            ) {
-              const newName = name[3].slice(0, 1);
-              return `${newName} ${name[4]}`;
-            } else if (
-              this.isEmptyObject(name[1]) &&
-              this.isEmptyObject(name[2]) &&
-              this.isEmptyObject(name[3]) &&
-              this.isEmptyObject(name[4]) &&
-              !this.isEmptyObject(name[5]) &&
-              !this.isEmptyObject(name[6])
-            ) {
-              return `${name[5]} ${name[6]}`;
-            } else {
-              return `${name[7]}`;
-            }
-          };
-          const playerName = getName(player.name);
-          const itemName = getName(item.name);
-
+          const playerName = this.getName(player.name);
+          const itemName = this.getName(item.name);
           if (playerName === itemName) {
-            // console.log(`playerName`, playerName);
-            // console.log(`itemName`, itemName);
             if (item.squad === "squad") {
               color = "roundgreen";
             } else if (item.squad === "substitution") {
@@ -539,18 +536,8 @@ export default {
       if (this.team.matches[matchNumber].addsquad !== undefined) {
         this.team.matches[matchNumber].addsquad.forEach(item => {
           if (item.shirtnumber === 0) {
-            const getName = name => {
-              name = name.replace(/\w\.\s/, "").split(" ");
-              if (name.length === 2) {
-                return name[1];
-              } else if (name.length === 3) {
-                return `${name[1]} ${name[2]}`;
-              } else {
-                return name[0];
-              }
-            };
-            const playerName = getName(player.name);
-            const itemName = getName(item.name);
+            const playerName = this.getName(player.name);
+            const itemName = this.getName(item.name);
             if (playerName === itemName) {
               if (item.squad === "squad") {
                 color = "roundgreen";
@@ -576,15 +563,17 @@ export default {
     getGoals(numGoals) {
       return this.goal_max === Number(numGoals) ? true : false;
     },
-    getMaxPrice(shirtnumber) {
-      const price = this.getNumber(this.getPlayerPrice(shirtnumber));
+    getMaxPrice(player) {
+      const price = this.getNumber(this.getPlayerPrice(player));
       return this.price_max > 0 && price === this.price_max ? true : false;
     },
-    getPlayerPrice(shirtnumber) {
+    getPlayerPrice(player) {
       if (this.lineupPrice) {
         let price = "N/D";
         this.lineupPrice.forEach(item => {
-          if (Number(item.number) === Number(shirtnumber)) {
+          const playerName = this.getName(player.name);
+          const itemName = this.getName(item.name);
+          if (playerName === itemName) {
             price = item.price;
           }
         });
