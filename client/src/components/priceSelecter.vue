@@ -25,7 +25,9 @@ export default {
   computed: {
     price: {
       get() {
-        return this.row.price === null ? this.rowPrice : this.row.price;
+        return this.row.price === null || this.row.price === undefined
+          ? this.rowPrice
+          : this.row.price;
       },
       set(val) {
         this.$store.dispatch("CHANGE_PRICE", {

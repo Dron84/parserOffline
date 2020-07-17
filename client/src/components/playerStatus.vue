@@ -42,6 +42,7 @@ export default {
 .names
   overflow: hidden
   text-overflow: ellipsis
+  padding: 0 5px
 .boxes
   position: relative
   width: 100%
