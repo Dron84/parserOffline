@@ -5,6 +5,7 @@
       <switches caption="Границы" v-model="addBorder" />
     </div>
     <div class="lineups_body">
+      <refreh_update />
       <squadTable
         :teamHref="matches.teamA.href"
         :team="matches.teamA"
@@ -64,13 +65,15 @@
 import squadTable from "./squadTable";
 import moment from "moment";
 import switches from "@/components/switches.vue";
+import refreh_update from "../components/refreshUpdate.vue";
+
 export default {
   name: "two_lineup",
   data: () => ({
     cards: false,
     addBorder: false
   }),
-  components: { squadTable, switches },
+  components: { squadTable, switches, refreh_update },
   methods: {
     changePrice(team, obj) {
       console.log(team, obj);
@@ -131,7 +134,7 @@ export default {
     },
     price(teamName) {
       const price = this.$store.getters.price;
-      return price.length > 0
+      return !this.isEmptyObject(price)
         ? price.filter(item => {
             const reg = new RegExp(teamName, "ig");
             if (reg.test(item.name)) {
@@ -146,7 +149,7 @@ export default {
         const filtred = price.filter(item =>
           reg.test(item.name) ? true : false
         );
-        return filtred.length > 0 ? filtred[0].squad_list : [];
+        return !this.isEmptyObject(filtred) ? filtred[0].squad_list : [];
       };
       return !this.isEmptyObject(this.$store.getters.price)
         ? getPrice(this.$store.getters.price)
@@ -290,4 +293,14 @@ export default {
 
 .fs17px
   font-size: 17px
+.refreh_update
+  position: absolute
+  top: 0
+  right: 40px
+
+.refresh
+  width: 50px
+  height: 50px
+  img
+    height: 50px
 </style>

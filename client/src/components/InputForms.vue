@@ -129,6 +129,7 @@ export default {
           url: this.match,
           team: this.what[0]
         });
+        console.log(`match`, match);
         this.$store.dispatch("GET_SAVED_COLOR");
         this.$store.dispatch("ADD_SAVED_MATCHES", {
           ...match
@@ -148,7 +149,7 @@ export default {
           team: this.what[2]
         });
         this.$store.dispatch("GET_SAVED_COLOR");
-        this.$store.dispatch("ADD_SAVED_MATCHES", { ...this.getMatch });
+        this.$store.commit("ADD_SAVED_MATCHES", { ...this.getMatch });
         this.teamA = "";
         this.teamB = "";
         this.CheckPriceByTeam(teamA, teamB);

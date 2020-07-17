@@ -3,9 +3,9 @@
     <div class="main-layout" v-if="tokenState !== undefined">
       <navbars @settingsShow="settingShow" :show="setting" />
       <asides />
-      <router-view ref="routes" />
-      <img :src="images" alt v-if="images !== null" />
       <tmName v-if="setting" />
+      <router-view ref="routes" v-else />
+      <img :src="images" alt v-if="images !== null" />
     </div>
     <div class="main-layout" v-else>
       <Login />

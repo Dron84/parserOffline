@@ -58,6 +58,10 @@ const store = new Vuex.Store({
         matchCount(state, val) {
             state.matchCount = val;
         },
+        SET_ALL_PRICE(state, val) {
+            state.price = val
+            localStorage.setItem("matchPrices", JSON.stringify(state.price));
+        }
     },
     actions: {
         GET_SAVED_MATCHES_FROM_LOCAL_STORAGE(state) {
@@ -68,10 +72,16 @@ const store = new Vuex.Store({
                 localStorage.setItem("savedMatches", "[]");
             }
         },
-        GET_MATCH_PRICES_FROM_LOCAL_STORAGE(state) {
+        async GET_MATCH_PRICES_FROM_LOCAL_STORAGE(state) {
             const price = JSON.parse(localStorage.getItem("matchPrices"));
-            !isEmptyObject(price) &&
-                price.map((item) => state.commit("SET_PRICE", item));
+
+            !isEmptyObject(price) ? price.map((item) => state.commit("SET_PRICE", item)) : state.dispatch('GET_SERVER_PRICE')
+        },
+        async GET_SERVER_PRICE(state) {
+            const {
+                data
+            } = await $axios.get('/tm/list')
+            state.commit('SET_ALL_PRICE', data)
         },
         async CHECK_PRICE(state, teamName) {
             const {

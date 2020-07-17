@@ -1,20 +1,9 @@
 <template>
-  <div class="container">
+  <div class="container toTop">
     <div class="row">
       <div class="col-12">
-        <div
-          class="alert alert-warning alert-with-icon"
-          data-notify="container"
-          v-if="msg !== ''"
-        >
-          <button
-            type="button"
-            aria-hidden="true"
-            class="close"
-            @click="msg = ''"
-          >
-            ×
-          </button>
+        <div class="alert alert-warning alert-with-icon" data-notify="container" v-if="msg !== ''">
+          <button type="button" aria-hidden="true" class="close" @click="msg = ''">×</button>
           <span data-notify="icon" class="ti-bell"></span>
           <span data-notify="message">{{ msg }}</span>
         </div>
@@ -22,17 +11,15 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h4 class="card-title">
-              Добавление Имени команды в TransferMarket
-            </h4>
+            <h4 class="card-title">Добавление Имени команды в TransferMarket</h4>
             <h5>
               <span @click="deleteTeam()" class="onHover">
                 <i class="ti-share"></i>&nbsp;Удалить БД
               </span>
               &nbsp;&nbsp;&nbsp;
               <span @click="addTeam()" class="onHover">
-                <i class="ti-support"></i>&nbsp;Добавить из Файла</span
-              >&nbsp;&nbsp;&nbsp;
+                <i class="ti-support"></i>&nbsp;Добавить из Файла
+              </span>&nbsp;&nbsp;&nbsp;
               <span @click="backUpTeam()" class="onHover">
                 <i class="ti-save"></i>&nbsp;Создать Бекап
               </span>
@@ -67,11 +54,7 @@
                     />
                   </td>
                   <td style="display: flex;align-items: center" class="onHover">
-                    <i
-                      class="ti-trash"
-                      @click="clearValues"
-                      title="Отчистить"
-                    ></i>
+                    <i class="ti-trash" @click="clearValues" title="Отчистить"></i>
                   </td>
                 </tr>
               </tbody>
@@ -83,9 +66,7 @@
               :class="[!checkForm() ? 'btn-default' : 'btn-success']"
               :disabled="!checkForm()"
               @click="addItem"
-            >
-              Добавить
-            </button>
+            >Добавить</button>
           </div>
         </div>
       </div>
@@ -107,23 +88,14 @@
                 </tr>
               </thead>
               <tbody>
-                <tr
-                  v-for="(item, index) in filter(teamName)"
-                  class="gridContRm"
-                  :key="index"
-                >
+                <tr v-for="(item, index) in filter(teamName)" class="gridContRm" :key="index">
                   <td>{{ index + 1 }}</td>
                   <td>{{ item.soccerway }}</td>
                   <td>{{ item.tm_link }}</td>
                   <td>
-                    <span
-                      class="list-btn onHover"
-                      :class="{ refresh: refresh }"
-                      title="Обновить данные"
-                      @click="refreshTM(item)"
-                    >
-                      <img :src="refreshImg" alt="Обновить данные"
-                    /></span>
+                    <span class="list-btn onHover" title="Обновить данные" @click="refreshTM(item)">
+                      <img :src="refreshImg" alt="Обновить данные" />
+                    </span>
                   </td>
                   <td>
                     <span
@@ -180,21 +152,29 @@ export default {
         this.teamName = res.data;
       });
     },
-    refreshTM(item) {
-      this.$axios.get(`/tm/update/${item._id}`);
+    async refreshTM(item) {
+      await this.$axios.get(`/tm/update/${item._id}`);
+      this.getDatas();
+      await this.$store.dispatch("GET_SERVER_PRICE");
     },
     clearValues() {
       this.soccerway_name = "";
       this.parseSite_name = "";
     },
-    addTeam() {
-      this.$axios.get("/tm/added").then(res => (this.teamName = res.data));
+    async addTeam() {
+      await this.$axios
+        .get("/tm/added")
+        .then(res => (this.teamName = res.data));
+      this.getDatas();
+      await this.$store.dispatch("GET_SERVER_PRICE");
     },
-    deleteTeam() {
+    async deleteTeam() {
       this.$axios
         .get("/tm/delete")
-        .then(res => {
+        .then(async res => {
           this.teamName = [];
+          this.getDatas();
+          await this.$store.dispatch("GET_SERVER_PRICE");
         })
         .catch(e => {
           this.msg = "Нет данных в БД";
@@ -212,22 +192,26 @@ export default {
         }, 10000);
       });
     },
-    addItem() {
+    async addItem() {
       this.$axios
         .post("/tm", {
           soccerway: this.soccerway_name,
           tm_name: this.parseSite_name
         })
-        .then(res => {
+        .then(async res => {
           this.teamName.push(res.data);
+          this.getDatas();
+          await this.$store.dispatch("GET_SERVER_PRICE");
         });
     },
-    removeItem(id) {
-      this.$axios.delete(`/tm/${id}`).then(res => {
+    async removeItem(id) {
+      this.$axios.delete(`/tm/${id}`).then(async res => {
         if (res.data !== undefined && res.data._id === id) {
           this.teamName = this.teamName.filter(obj =>
             obj._id !== id ? true : false
           );
+          this.getDatas();
+          await this.$store.dispatch("GET_SERVER_PRICE");
         }
       });
     },
@@ -277,4 +261,6 @@ export default {
 .list-btn
   img
     height: 20px
+.toTop
+  z-index: 999999
 </style>
