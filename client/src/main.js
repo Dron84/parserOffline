@@ -90,9 +90,6 @@ Vue.prototype.getName = (name) => {
 }
 
 
-
-
-
 if (
     VueCookie.get("token") !== "" &&
     VueCookie.get("token") !== undefined &&
