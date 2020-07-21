@@ -1,14 +1,14 @@
 <template>
   <div class="refreh_update">
     <span
-      class="refresh"
+      class="refresh onHover"
       @click="refreshMatch()"
       v-if="!isEmptyObject(matches.teamA)&& !isEmptyObject(matches.teamB)"
     >
       <img :src="refreshImg" alt />
     </span>
     <span
-      class="refresh TM"
+      class="refresh TM onHover"
       @click="refreshPrice()"
       v-if="!isEmptyObject(matches.teamA)&& !isEmptyObject(matches.teamB) && !isEmptyObject(price)"
     >
@@ -133,6 +133,7 @@ export default {
 };
 </script>
 <style lang='sass'>
+@import '../assets/vars'
 .refreh_update
   display: flex
   align-items: center
@@ -141,14 +142,21 @@ export default {
 .refresh
   width: 40px
   height: 40px
+  transition: all .2s linear
   img
     height: 40px
-
+  &:hover
+    border-bottom: 1px solid $RoundRed
+    transform: scale(1.1)
 .TM
   display: flex
   align-items: center
   width: 90px
   height: 50px
+  transition: all .2s linear
+  &:hover
+    border-bottom: 1px solid $RoundRed
+    transform: scale(1.1)
   svg
     width: 90px
     height: 50px
