@@ -24,10 +24,39 @@ if (reg.test(location.host)) {
 } else {
     Vue.config.productionTip = true;
 }
-Vue.prototype.isEmptyObject = (object) => object === null || object === undefined ? true : Object.entries(object).length === 0 ? true : false;
-Vue.prototype.$axios = $axios;
-Vue.prototype.$cookie = VueCookie;
-Vue.prototype.getNumber = (val) => {
+
+const getName = (name) => {
+    const nameReg = /(\w)\.\s(\w+)|(\w+)\s(\w+)|(\w)\s(\w+)|(\w+)/i
+    const isEmptyObject = (object) => object === null || object === undefined ? true : Object.entries(object).length === 0 ? true : false;
+    name = latinize(name);
+    // console.log(`name`, name);
+    name = name !== null && name.trim().match(nameReg);
+    // console.log(`name`, name);
+    if (!isEmptyObject(name[1]) && !isEmptyObject(name[2])) {
+        return `${name[1]} ${name[2]}`;
+    } else if (
+        isEmptyObject(name[1]) &&
+        isEmptyObject(name[2]) &&
+        !isEmptyObject(name[3]) &&
+        !isEmptyObject(name[4])
+    ) {
+        const newName = name[3].slice(0, 1);
+        return `${newName} ${name[4]}`;
+    } else if (
+        isEmptyObject(name[1]) &&
+        isEmptyObject(name[2]) &&
+        isEmptyObject(name[3]) &&
+        isEmptyObject(name[4]) &&
+        !isEmptyObject(name[5]) &&
+        !isEmptyObject(name[6])
+    ) {
+        return `${name[5]} ${name[6]}`;
+    } else {
+        return `${name[7]}`;
+    }
+}
+
+const getNumber = (val) => {
     if (val !== null && typeof val === "string" && val !== undefined) {
         const reg_price = /([0-9\.]+)(m|bn|k|Th|th)/;
         const newVal = val.match(reg_price);
@@ -56,39 +85,29 @@ Vue.prototype.getNumber = (val) => {
         return 0;
     }
 };
-Vue.prototype.MaxOnArray = (array) => Math.max.apply(Math, array)
 
-Vue.prototype.getName = (name) => {
-    const nameReg = /(\w)\.\s(\w+)|(\w+)\s(\w+)|(\w)\s(\w+)|(\w+)/i
-    const isEmptyObject = (object) => object === null || object === undefined ? true : Object.entries(object).length === 0 ? true : false;
-    name = latinize(name);
-    console.log(`name`, name);
-    name = name !== null && name.trim().match(nameReg);
-    // console.log(`name`, name);
-    if (!isEmptyObject(name[1]) && !isEmptyObject(name[2])) {
-        return `${name[1]} ${name[2]}`;
-    } else if (
-        isEmptyObject(name[1]) &&
-        isEmptyObject(name[2]) &&
-        !isEmptyObject(name[3]) &&
-        !isEmptyObject(name[4])
-    ) {
-        const newName = name[3].slice(0, 1);
-        return `${newName} ${name[4]}`;
-    } else if (
-        isEmptyObject(name[1]) &&
-        isEmptyObject(name[2]) &&
-        isEmptyObject(name[3]) &&
-        isEmptyObject(name[4]) &&
-        !isEmptyObject(name[5]) &&
-        !isEmptyObject(name[6])
-    ) {
-        return `${name[5]} ${name[6]}`;
-    } else {
-        return `${name[7]}`;
+const getPlayerPrice = (player, lineupPrice) => {
+    if (lineupPrice) {
+        let price = "N/D";
+        const playerName = getName(player.name);
+        lineupPrice.forEach(item => {
+            const itemName = getName(item.name);
+            if (playerName === itemName) {
+                price = item.price;
+            }
+        });
+        return price;
     }
 }
 
+
+Vue.prototype.isEmptyObject = (object) => object === null || object === undefined ? true : Object.entries(object).length === 0 ? true : false;
+Vue.prototype.$axios = $axios;
+Vue.prototype.$cookie = VueCookie;
+Vue.prototype.getNumber = getNumber
+Vue.prototype.MaxOnArray = (array) => Math.max.apply(Math, array)
+Vue.prototype.getName = getName
+Vue.prototype.getPlayerPrice = getPlayerPrice
 
 if (
     VueCookie.get("token") !== "" &&

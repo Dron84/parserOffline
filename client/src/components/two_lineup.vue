@@ -74,12 +74,10 @@ export default {
   components: { squadTable, switches },
   methods: {
     changePrice(team, obj) {
-      const match = { ...this.matches };
-      const playerName = this.getName(obj.player.name);
-      team.squad.map(item => {
-        const itemName = this.getName(item.name);
-        if (playerName === itemName) {
-          item.price = obj.data;
+      const match = this.matches;
+      team.squad.map((item, index) => {
+        if (index === obj.index) {
+          item.price = obj.newPrice;
         }
       });
       if (match.teamA._id === team._id) {

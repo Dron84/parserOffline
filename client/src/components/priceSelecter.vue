@@ -3,7 +3,7 @@
     <span @click="box = !box">{{ price }}</span>
     <ul class="box" v-if="box">
       <span class="close" @click="box =false">&times;</span>
-      <li v-for="item in priceList" :key="item._id" @click="price =item.price">
+      <li v-for="(item,id) in priceList" :key="id" @click="setPrice(item,id)">
         <span>{{item.name}}</span>
         <span>{{item.price}}</span>
       </li>
@@ -17,32 +17,29 @@ export default {
     box: false
   }),
   props: {
-    rowPrice: { type: String },
+    value: { type: String },
     priceList: { type: Array },
-    row: { type: Object }
+    row: { type: Object },
+    index: { type: Number }
   },
-  methods: {},
+  methods: {
+    setPrice(item, id) {
+      this.$store.dispatch("CHANGE_PRICE", {
+        player: this.row,
+        newPrice: item.price
+      });
+      this.$emit("input", item.price);
+      this.$emit("changePrice", { newPrice: item.price, index: this.index });
+      this.box = false;
+      // this.$store.dispatch("GET_SAVED_COLOR");
+    }
+  },
   computed: {
     price: {
       get() {
-        // console.log(
-        //   "this.row.price",
-        //   this.row.price,
-        //   "this.rowPrice",
-        //   this.rowPrice
-        // );
-        return this.row.price === null || this.row.price === undefined
-          ? this.rowPrice
+        return this.isEmptyObject(this.value)
+          ? this.getPlayerPrice(this.row, this.priceList)
           : this.row.price;
-      },
-      set(val) {
-        this.$store.dispatch("CHANGE_PRICE", {
-          player: this.row,
-          newPrice: val
-        });
-        this.$emit("changePrice", { player: this.row, data: val });
-        this.box = false;
-        this.$store.dispatch("GET_SAVED_COLOR");
       }
     }
   }

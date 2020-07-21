@@ -166,8 +166,9 @@
         <priceSelecter
           class="columns"
           :class="[getMaxPrice(rows) ? 'max_price' : '']"
-          :rowPrice="getPlayerPrice(rows)"
+          v-model="rows.price"
           :row="rows"
+          :index="index"
           :priceList="lineupPrice"
           @changePrice="$emit('changePrice', $event)"
         />
@@ -287,7 +288,6 @@
         <priceSelecter
           class="columns"
           :class="[getMaxPrice(rows) ? 'max_price' : '']"
-          :rowPrice="getPlayerPrice(rows)"
           :row="rows"
           :priceList="lineupPrice"
           @changePrice="$emit('changePrice', $event)"
@@ -486,8 +486,8 @@ export default {
     getSquadClass(player, matchNumber) {
       let color;
       if (this.team.matches[matchNumber].squad !== undefined) {
+        const playerName = this.getName(player.name);
         this.team.matches[matchNumber].squad.forEach(item => {
-          const playerName = this.getName(player.name);
           const itemName = this.getName(item.name);
           if (playerName === itemName) {
             if (item.squad === "squad") {
@@ -505,9 +505,9 @@ export default {
     getAddedSquadClass(player, matchNumber) {
       let color;
       if (this.team.matches[matchNumber].addsquad !== undefined) {
+        const playerName = this.getName(player.name);
         this.team.matches[matchNumber].addsquad.forEach(item => {
           if (item.shirtnumber === 0) {
-            const playerName = this.getName(player.name);
             const itemName = this.getName(item.name);
             if (playerName === itemName) {
               if (item.squad === "squad") {
@@ -535,21 +535,10 @@ export default {
       return this.goal_max === Number(numGoals) ? true : false;
     },
     getMaxPrice(player) {
-      const price = this.getNumber(this.getPlayerPrice(player));
+      const price = this.getNumber(
+        this.getPlayerPrice(player, this.lineupPrice)
+      );
       return this.price_max > 0 && price === this.price_max ? true : false;
-    },
-    getPlayerPrice(player) {
-      if (this.lineupPrice) {
-        let price = "N/D";
-        this.lineupPrice.forEach(item => {
-          const playerName = this.getName(player.name);
-          const itemName = this.getName(item.name);
-          if (playerName === itemName) {
-            price = item.price;
-          }
-        });
-        return price;
-      }
     }
   },
   computed: {

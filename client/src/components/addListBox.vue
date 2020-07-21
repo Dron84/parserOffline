@@ -28,9 +28,7 @@
           @keyup.ctrl.enter.prevent="newLine"
           ref="textarea"
         />
-        <button class="btn btn-success" @click="GO()">
-          GO
-        </button>
+        <button class="btn btn-success" @click="GO()">GO</button>
       </div>
     </div>
   </div>
@@ -59,19 +57,6 @@ export default {
       this.txt = e.target.value;
     },
     GO() {
-      const getName = name => {
-        const newname = name
-          .toLowerCase()
-          .replace(/\w\.\s/, "")
-          .split(" ");
-        if (newname.length === 2) {
-          return newname[1];
-        } else if (newname.length === 3) {
-          return `${newname[1]} ${newname[2]}`;
-        } else {
-          return newname[0];
-        }
-      };
       let txt;
       if (this.types === "name") {
         txt = this.txt
@@ -88,12 +73,12 @@ export default {
 
         let err = [];
         txt.forEach(name => {
-          const nameString = getName(name);
+          const nameString = this.getName(name);
           // const reg = new RegExp(nameString, "ig");
           let e;
           this.team.squad.forEach(item => {
-            console.log(nameString, getName(item.name));
-            if (nameString === getName(item.name)) {
+            // console.log(nameString, getName(item.name));
+            if (nameString === this.getName(item.name)) {
               this.$store.dispatch("SAVE_LINEUP", {
                 shirtnumber: item.shirtnumber,
                 teamsId: this.team._id,
@@ -108,17 +93,17 @@ export default {
         if (err.length > 0) {
           const rem = [];
           err.forEach((name, index) => {
-            const nameString = getName(name);
+            const nameString = this.getName(name);
             let e;
             // const regLatin = new RegExp(, "ig");
             // console.log("regLatin", regLatin);
             this.team.squad.forEach(item => {
-              console.log(
-                "latinize",
-                latinize(nameString),
-                latinize(item.name)
-              );
-              if (latinize(nameString) == latinize(getName(item.name))) {
+              // console.log(
+              //   "latinize",
+              //   latinize(nameString),
+              //   latinize(item.name)
+              // );
+              if (latinize(nameString) == latinize(this.getName(item.name))) {
                 this.$store.dispatch("SAVE_LINEUP", {
                   shirtnumber: item.shirtnumber,
                   teamsId: this.team._id,

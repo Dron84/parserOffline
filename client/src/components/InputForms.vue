@@ -129,13 +129,12 @@ export default {
           url: this.match,
           team: this.what[0]
         });
-        console.log(`match`, match);
-        this.$store.dispatch("GET_SAVED_COLOR");
         this.$store.dispatch("ADD_SAVED_MATCHES", {
           ...match
         });
         this.match = "";
         this.CheckPriceByTeam(this.getMatch.teamA, this.getMatch.teamB);
+        this.$store.dispatch("GET_SAVED_COLOR");
       }
     },
     async goTeamAAndTeamB() {
@@ -148,11 +147,11 @@ export default {
           url: this.teamB,
           team: this.what[2]
         });
-        this.$store.dispatch("GET_SAVED_COLOR");
         this.$store.commit("ADD_SAVED_MATCHES", { ...this.getMatch });
         this.teamA = "";
         this.teamB = "";
         this.CheckPriceByTeam(teamA, teamB);
+        this.$store.dispatch("GET_SAVED_COLOR");
       }
     }
   },
