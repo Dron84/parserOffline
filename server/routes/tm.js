@@ -97,12 +97,13 @@ tm.get("/", async (req, res) => {
 });
 tm.delete("/:id", async (req, res) => {
     try {
-        // const find = await tm_name_Schema() //TODO
-        const deleted = await tm_name_Schema
-            .findByIdAndRemove(req.params.id)
-            .exec();
-        setLog(deleted);
-        res.status(200).json(deleted);
+        const findName = await tm_name_Schema.findById(req.params.id).exec();
+        await tm_list_Schema.deleteOne({
+            name: findName.soccerway,
+            href: findName.tm_link
+        }).exec()
+        findName.deleteOne()
+        res.status(200).json(findName);
     } catch (e) {
         setLog(e.message, "error");
         res.status(500).json({
