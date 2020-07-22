@@ -607,7 +607,6 @@ export default {
   color: $RoundGreen
 .yellow_text
   color: $RoundBroun
-  background-color: rgba(grey,.5)
 .yellowBorder
   border: 3px solid $RoundYellow !important
   box-sizing: border-box
