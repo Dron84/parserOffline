@@ -57,6 +57,8 @@
         </g>
       </svg>
     </span>
+    <div class="TMLoader" v-if="TMLoader">Загрузка</div>
+    <div class="TMMessage" v-if="TMMessage!==''">{{TMMessage}}</div>
   </div>
 </template>
 <script>
@@ -67,7 +69,9 @@ export default {
   name: "refresh_update",
   data: () => ({
     refreshImg,
-    refreshTMImg
+    refreshTMImg,
+    TMLoader: false,
+    TMMessage: "",
   }),
   methods: {
     async CheckPriceByTeam(teamA, teamB) {
@@ -82,7 +86,7 @@ export default {
     },
     async refreshMatch() {
       const matches = { ...this.matches };
-      const filtredMatches = this.savedMatches.filter(item =>
+      const filtredMatches = this.savedMatches.filter((item) =>
         item.teamA.name === this.matches.teamA.name &&
         item.teamB.name === this.matches.teamB.name
           ? false
@@ -91,11 +95,11 @@ export default {
       this.$store.commit("SET_SAVED_MATCHES", filtredMatches);
       const teamA = await this.$store.dispatch("PARSE_URL", {
         url: this.matches.teamA.href,
-        team: "teamA"
+        team: "teamA",
       });
       const teamB = await this.$store.dispatch("PARSE_URL", {
         url: this.matches.teamB.href,
-        team: "teamB"
+        team: "teamB",
       });
       matches.teamA = teamA;
       matches.teamB = teamB;
@@ -105,17 +109,33 @@ export default {
       this.CheckPriceByTeam(teamA, teamB);
     },
     async refreshPrice() {
+      this.TMLoader = true;
+      this.TMMessage = "";
       const matches = { ...this.matches };
       const { data } = await this.$axios.get(`/tm`);
-      // console.log(`data`, data);
-      data.map(item => {
+
+      const UpdateInfo = async (id) => {
+        try {
+          const { data } = await this.$axios.get(`/tm/update/${id}`);
+          this.TMLoader = false;
+          this.TMMessage += "OK\n";
+        } catch (e) {
+          this.TMLoader = false;
+          this.TMMessage += "ТМ отклонил запрос";
+        }
+        setTimeout(() => {
+          this.TMMessage = "";
+        }, 5000);
+      };
+      data.map(async (item) => {
         item.soccerway.toLowerCase() === matches.teamA.name.toLowerCase()
-          ? this.$axios.get(`/tm/update/${item._id}`)
+          ? UpdateInfo(item._id)
           : item.soccerway.toLowerCase() === matches.teamB.name.toLowerCase() &&
-            this.$axios.get(`/tm/update/${item._id}`);
+            UpdateInfo(item._id);
       });
       this.$store.dispatch("GET_SERVER_PRICE");
-    }
+      this.$store.dispatch("GET_MATCH_PRICES_FROM_LOCAL_STORAGE");
+    },
   },
   computed: {
     matches() {
@@ -126,10 +146,10 @@ export default {
     },
     price() {
       return this.$store.getters.price;
-    }
+    },
   },
   created() {},
-  mounted() {}
+  mounted() {},
 };
 </script>
 <style lang='sass'>
@@ -148,6 +168,7 @@ export default {
   &:hover
     border-bottom: 1px solid $RoundRed
     transform: scale(1.1)
+
 .TM
   display: flex
   align-items: center
@@ -168,4 +189,14 @@ export default {
 
     .st3
       fill: #b01f16
+.TMLoader
+  position: absolute
+  bottom: -9px
+  right: 30px
+  color: #b01f16
+.TMMessage
+  position: absolute
+  bottom: -13px
+  right: 0px
+  color: #b01f16
 </style>
