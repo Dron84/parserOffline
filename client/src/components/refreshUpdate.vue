@@ -110,12 +110,18 @@ export default {
     },
     async refreshPrice() {
       this.TMLoader = true;
+      await this.$store.dispatch("GET_SERVER_PRICE");
       this.TMMessage = "";
       const matches = { ...this.matches };
       const { data } = await this.$axios.get(`/tm`);
+      const price = this.$store.getters.price;
 
       const UpdateInfo = async (id) => {
         try {
+          this.$store.commit(
+            "SET_ALL_PRICE",
+            price.filter((item) => item._id !== id)
+          );
           const { data } = await this.$axios.get(`/tm/update/${id}`);
           this.TMLoader = false;
           this.TMMessage += "OK\n";
@@ -128,13 +134,12 @@ export default {
         }, 5000);
       };
       data.map(async (item) => {
-        item.soccerway.toLowerCase() === matches.teamA.name.toLowerCase()
-          ? UpdateInfo(item._id)
-          : item.soccerway.toLowerCase() === matches.teamB.name.toLowerCase() &&
-            UpdateInfo(item._id);
+        (item.soccerway.toLowerCase() === matches.teamA.name.toLowerCase() ||
+          item.soccerway.toLowerCase() === matches.teamB.name.toLowerCase()) &&
+          UpdateInfo(item._id);
       });
       this.$store.dispatch("GET_SERVER_PRICE");
-      this.$store.dispatch("GET_MATCH_PRICES_FROM_LOCAL_STORAGE");
+      // this.$store.dispatch("GET_MATCH_PRICES_FROM_LOCAL_STORAGE");
     },
   },
   computed: {
