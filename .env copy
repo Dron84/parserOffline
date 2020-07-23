@@ -1,0 +1,4 @@
+MONGODB_PATH=mongodb://login:password@localhost:27017/dbName
+PORT=3000
+VUE_APP_API_URL=/
+VUE_APP_PROD=true
