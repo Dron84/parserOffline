@@ -110,11 +110,11 @@ export default {
     copyImg,
     removeImg,
     refreshImg,
-    userList: []
+    userList: [],
   }),
   methods: {
     getDatas() {
-      this.$axios.get(`/user`).then(res => {
+      this.$axios.get(`/user`).then((res) => {
         this.userList = res.data;
       });
     },
@@ -127,19 +127,19 @@ export default {
     async addItem() {
       this.$axios
         .post("/user", {
-          email: this.email,
-          password: this.password
+          email: this.email.trim().toLowerCase(),
+          password: this.password,
         })
-        .then(async res => {
+        .then(async (res) => {
           this.userList.push(res.data);
           this.clearValues();
           this.getDatas();
         });
     },
     async removeItem(id) {
-      this.$axios.delete(`/user/${id}`).then(async res => {
+      this.$axios.delete(`/user/${id}`).then(async (res) => {
         if (res.data !== undefined && res.data._id === id) {
-          this.userList = this.userList.filter(obj =>
+          this.userList = this.userList.filter((obj) =>
             obj._id !== id ? true : false
           );
         }
@@ -156,15 +156,17 @@ export default {
     },
     filter(arr) {
       if (this.email !== "") {
-        return arr.filter(obj => obj.email.match(new RegExp(this.email, "i")));
+        return arr.filter((obj) =>
+          obj.email.match(new RegExp(this.email, "i"))
+        );
       } else {
         return arr;
       }
-    }
+    },
   },
   mounted() {
     this.getDatas();
-  }
+  },
 };
 </script>
 

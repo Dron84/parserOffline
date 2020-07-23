@@ -37,13 +37,13 @@ export default {
   data: () => ({
     email: "",
     pass: "",
-    msg: ""
+    msg: "",
   }),
   methods: {
     async loginin() {
       const { data } = await this.$axios.post("login", {
-        email: this.email,
-        password: this.passBase
+        email: this.email.trim().toLowerCase(),
+        password: this.passBase,
       });
       if (data.message === undefined) {
         this.$cookie.set("token", data.token, 14);
@@ -54,13 +54,13 @@ export default {
           this.msg = "";
         }, 4000);
       }
-    }
+    },
   },
   computed: {
     passBase() {
       return base64.encode(this.pass);
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="sass">
