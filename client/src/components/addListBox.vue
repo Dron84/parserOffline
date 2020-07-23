@@ -40,11 +40,11 @@ export default {
   data: () => ({
     txt: "",
     types: "name",
-    msg: ""
+    msg: "",
   }),
   props: {
     team: { type: Object },
-    show: { type: Boolean, default: false }
+    show: { type: Boolean, default: false },
   },
   methods: {
     changeType() {
@@ -57,12 +57,25 @@ export default {
       this.txt = e.target.value;
     },
     GO() {
+      const getName = (name) => {
+        const newname = name
+          .toLowerCase()
+          .replace(/\w\.\s/, "")
+          .split(" ");
+        if (newname.length === 2) {
+          return newname[1];
+        } else if (newname.length === 3) {
+          return `${newname[1]} ${newname[2]}`;
+        } else {
+          return newname[0];
+        }
+      };
       let txt;
       if (this.types === "name") {
         txt = this.txt
           .split(/\n|\r|\n\r|,\s|,|;\s|;|\s-\s/)
-          .filter(item => (item !== "" ? true : false));
-        txt = txt.map(item =>
+          .filter((item) => (item !== "" ? true : false));
+        txt = txt.map((item) =>
           item
             .replace(
               /[0-9]{0,3}\.|[0-9]{0,3}\s\.|[0-9]{0,3}\.\s|[0-9]{0,3}\s\.\s/,
@@ -72,18 +85,18 @@ export default {
         );
 
         let err = [];
-        txt.forEach(name => {
-          const nameString = this.getName(name);
+        txt.forEach((name) => {
+          const nameString = getName(name);
           // const reg = new RegExp(nameString, "ig");
           let e;
-          this.team.squad.forEach(item => {
-            // console.log(nameString, getName(item.name));
-            if (nameString === this.getName(item.name)) {
+          this.team.squad.forEach((item) => {
+            console.log(nameString, getName(item.name));
+            if (nameString === getName(item.name)) {
               this.$store.dispatch("SAVE_LINEUP", {
                 shirtnumber: item.shirtnumber,
                 teamsId: this.team._id,
                 lineupStatus: null,
-                name: item.name
+                name: item.name,
               });
               e = false;
             }
@@ -93,22 +106,22 @@ export default {
         if (err.length > 0) {
           const rem = [];
           err.forEach((name, index) => {
-            const nameString = this.getName(name);
+            const nameString = getName(name);
             let e;
             // const regLatin = new RegExp(, "ig");
             // console.log("regLatin", regLatin);
-            this.team.squad.forEach(item => {
-              // console.log(
-              //   "latinize",
-              //   latinize(nameString),
-              //   latinize(item.name)
-              // );
-              if (latinize(nameString) == latinize(this.getName(item.name))) {
+            this.team.squad.forEach((item) => {
+              console.log(
+                "latinize",
+                latinize(nameString),
+                latinize(item.name)
+              );
+              if (latinize(nameString) == latinize(getName(item.name))) {
                 this.$store.dispatch("SAVE_LINEUP", {
                   shirtnumber: item.shirtnumber,
                   teamsId: this.team._id,
                   lineupStatus: null,
-                  name: item.name
+                  name: item.name,
                 });
                 e = false;
               }
@@ -116,7 +129,7 @@ export default {
             e === false ? rem.push(index) : false;
           });
 
-          rem.reverse().forEach(item => {
+          rem.reverse().forEach((item) => {
             err.splice(item, 1);
           });
           if (err.length > 0) {
@@ -130,22 +143,22 @@ export default {
       } else {
         txt = this.txt
           .split(/\n|\r|\n\r|,\s|,|;\s|;|\s|\s+/)
-          .filter(item => (item !== "" && Number(item) >= 0 ? true : false));
-        txt = txt.map(item =>
+          .filter((item) => (item !== "" && Number(item) >= 0 ? true : false));
+        txt = txt.map((item) =>
           Number(item.replace(/\.|\s\.|\.\s|\s\.\s/, "").trim())
         );
 
         const err = [];
-        txt.forEach(num => {
+        txt.forEach((num) => {
           let e;
-          this.team.squad.forEach(item => {
+          this.team.squad.forEach((item) => {
             if (Number(item.shirtnumber) === num) {
               // item.LU = "squad";
               this.$store.dispatch("SAVE_LINEUP", {
                 shirtnumber: item.shirtnumber,
                 teamsId: this.team._id,
                 lineupStatus: null,
-                name: item.name
+                name: item.name,
               });
               e = false;
             }
@@ -159,8 +172,8 @@ export default {
         }
         this.$emit("hide");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="sass">
