@@ -196,7 +196,7 @@ export default {
   &.show
     visibility: visible
     opacity: 1
-    width: 500px
+    width: 400px
     min-height: 200px
     height: auto
 .btn-tabs
