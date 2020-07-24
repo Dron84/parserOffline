@@ -19,9 +19,7 @@
         @removePlayer="removePlayer(matches.teamA._id, $event)"
         @removeAddPlayer="removeAddPlayer(matches.teamA._id, $event)"
         @addPlayer="addPlayer(matches.teamA._id, $event)"
-        :priceOfLineup="
-        selectLineupPrice(matches.teamA, priceSquadList(matches.teamA.name))
-      "
+        :priceOfLineup="selectLineupPrice(matches.teamA, priceSquadList(matches.teamA.name))"
         @changePlayerStatus="changePlayerStatus(matches.teamA, $event)"
         @yellowCard="yellowCard(matches.teamA, $event)"
         @setMatchSquad="setMatchSquad(matches.teamA, $event)"
@@ -45,9 +43,7 @@
         @removePlayer="removePlayer(matches.teamB._id, $event)"
         @removeAddPlayer="removeAddPlayer(matches.teamB._id, $event)"
         @addPlayer="addPlayer(matches.teamB._id, $event)"
-        :priceOfLineup="
-        selectLineupPrice(matches.teamB, priceSquadList(matches.teamB.name))
-      "
+        :priceOfLineup="selectLineupPrice(matches.teamB, priceSquadList(matches.teamB.name))"
         @changePlayerStatus="changePlayerStatus(matches.teamB, $event)"
         @yellowCard="yellowCard(matches.teamB, $event)"
         @setMatchSquad="setMatchSquad(matches.teamB, $event)"
@@ -69,7 +65,7 @@ export default {
   name: "two_lineup",
   data: () => ({
     cards: false,
-    addBorder: false
+    addBorder: false,
   }),
   components: { squadTable, switches },
   methods: {
@@ -116,9 +112,9 @@ export default {
     selectLineupPrice(team, lineupPrice) {
       let result = 0;
       if (lineupPrice && team) {
-        team.squad.forEach(item => {
+        team.squad.forEach((item) => {
           if (item.LU === "squad") {
-            lineupPrice.forEach(async price => {
+            lineupPrice.forEach(async (price) => {
               if (Number(item.shirtnumber) === Number(price.number)) {
                 result += Number(this.getNumber(price.price));
               }
@@ -131,7 +127,7 @@ export default {
     price(teamName) {
       const price = this.$store.getters.price;
       return !this.isEmptyObject(price)
-        ? price.filter(item => {
+        ? price.filter((item) => {
             const reg = new RegExp(teamName, "ig");
             if (reg.test(item.name)) {
               return true;
@@ -140,9 +136,9 @@ export default {
         : [];
     },
     priceSquadList(teamName) {
-      const getPrice = price => {
+      const getPrice = (price) => {
         const reg = new RegExp(teamName, "ig");
-        const filtred = price.filter(item =>
+        const filtred = price.filter((item) =>
           reg.test(item.name) ? true : false
         );
         return !this.isEmptyObject(filtred) ? filtred[0].squad_list : [];
@@ -160,7 +156,7 @@ export default {
           teamsId: team._id,
           id: team[arr()][data.index].shirtnumber,
           name: team[arr()][data.index].name,
-          val: data.data
+          val: data.data,
         });
         this.$store.commit("SET_MATCH", match);
       } else {
@@ -169,7 +165,7 @@ export default {
           teamsId: team._id,
           id: team[arr()][data.index].shirtnumber,
           name: team[arr()][data.index].name,
-          val: data.data
+          val: data.data,
         });
         this.$store.commit("SET_MATCH", match);
       }
@@ -177,7 +173,7 @@ export default {
     },
     setSavedMathecs(match) {
       const saved = [...this.$store.getters.savedMatches];
-      saved.map(item => {
+      saved.map((item) => {
         if (
           item.teamA._id === match.teamA._id &&
           item.teamB._id === match.teamB._id
@@ -200,16 +196,16 @@ export default {
         this.$store.commit("SET_MATCH", match);
       }
       this.setSavedMathecs(match);
-    }
+    },
   },
   computed: {
     matches() {
       const matches = this.$store.getters.matches;
       const teamA = { ...matches.teamA };
       const teamB = { ...matches.teamB };
-      const toDate = date =>
+      const toDate = (date) =>
         `20${date.split("/")[2]},${date.split("/")[1]},${date.split("/")[0]}`;
-      const sortTeamMatches = team => {
+      const sortTeamMatches = (team) => {
         team.matches = team.matches.sort(
           ({ teamData: a }, { teamData: b }) =>
             new Date(toDate(b.date)) - new Date(toDate(a.date))
@@ -228,11 +224,11 @@ export default {
         matches.teamB !== undefined &&
         getMatches()
       );
-    }
+    },
   },
   props: {
-    matchCount: { type: String }
-  }
+    matchCount: { type: String },
+  },
 };
 </script>
 

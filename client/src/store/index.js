@@ -465,7 +465,7 @@ const store = new Vuex.Store({
             saved.splice(val, 1);
             state.commit("SET_SAVED_MATCHES", saved);
         },
-        SET_COMMENT(state, obj) {
+        async SET_COMMENT(state, obj) {
             const SM = state.getters.savedMatches;
             SM.forEach((row) => {
                 if (
@@ -474,12 +474,15 @@ const store = new Vuex.Store({
                 ) {
                     if (row.teamA._id === obj.id) {
                         row.teamA.comment = obj.val;
+                        state.commit('SET_MATCH', row)
                     } else if (row.teamB._id === obj.id) {
                         row.teamB.comment = obj.val;
+                        state.commit('SET_MATCH', row)
                     }
                 }
             });
             state.commit("SET_SAVED_MATCHES", SM);
+            await state.dispatch('GET_SAVED_COLOR')
         },
         REMOVE_PLAYER(state, obj) {
             const {

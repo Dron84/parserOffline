@@ -28,10 +28,10 @@
       <div class="row head_row" :class="getGamerStatus(0)" :style="styleForRow">
         <div class="columns">#</div>
         <div class="columns">Имя</div>
-        <div class="columns" v-if="blueButtons"></div>
-        <div class="columns"></div>
         <div class="columns"></div>
         <div class="columns LU">LU</div>
+        <div class="columns" v-if="blueButtons"></div>
+        <div class="columns"></div>
         <div class="columns"></div>
         <div class="columns"></div>
         <div class="columns NM" v-if="NM">NM</div>
@@ -80,6 +80,13 @@
           :teamsId="id"
           :teamName="teamName"
         />
+        <lineup_status
+          class="columns LU"
+          v-model="rows.LU"
+          :id="rows.shirtnumber"
+          :name="rows.name"
+          :teamsId="id"
+        />
         <lu_button
           color="blue"
           v-model="rows.blue"
@@ -96,14 +103,6 @@
           :names="rows.name"
           :teamsId="id"
           :teamName="teamName"
-        />
-
-        <lineup_status
-          class="columns LU"
-          v-model="rows.LU"
-          :id="rows.shirtnumber"
-          :name="rows.name"
-          :teamsId="id"
         />
         <lu_button
           color="black"
@@ -211,6 +210,13 @@
           :teamsId="id"
           :teamName="teamName"
         />
+        <lineup_status
+          class="columns LU"
+          v-model="rows.LU"
+          :id="rows.shirtnumber"
+          :name="rows.name"
+          :teamsId="id"
+        />
         <lu_button
           color="blue"
           v-model="rows.blue"
@@ -227,14 +233,6 @@
           :names="rows.name"
           :teamsId="id"
           :teamName="teamName"
-        />
-
-        <lineup_status
-          class="columns LU"
-          v-model="rows.LU"
-          :id="rows.shirtnumber"
-          :name="rows.name"
-          :teamsId="id"
         />
         <lu_button
           color="black"
@@ -389,7 +387,7 @@ export default {
     switches,
     preloader,
     playerStatus,
-    priceSelecter
+    priceSelecter,
   },
   data: () => ({
     numeral,
@@ -405,7 +403,7 @@ export default {
     playerMatches: [],
     playerData: {},
     playerLoader: false,
-    blueButtons: false
+    blueButtons: false,
   }),
   props: {
     id: "",
@@ -417,29 +415,29 @@ export default {
     priceOfLineup: { type: Number, default: null },
     matchCount: { type: String },
     cards: { type: Boolean, default: false },
-    addBorder: { type: Boolean, default: false }
+    addBorder: { type: Boolean, default: false },
   },
   methods: {
     setMatchSquad(rows, index, val) {
       const match = { ...this.team.matches[index] };
       match.addsquad === undefined ? (match.addsquad = []) : false;
-      const getNewVal = val =>
+      const getNewVal = (val) =>
         val === "squad"
           ? "substitution"
           : val === "substitution"
           ? "none"
           : val === "none" && "squad";
       const find = match.addsquad.find(
-        item => item.shirtnumber === rows.shirtnumber
+        (item) => item.shirtnumber === rows.shirtnumber
       );
       !find
         ? match.addsquad.push({
             flag: rows.flag,
             name: rows.name,
             shirtnumber: rows.shirtnumber,
-            squad: val
+            squad: val,
           })
-        : match.addsquad.map(item =>
+        : match.addsquad.map((item) =>
             item.shirtnumber === rows.shirtnumber
               ? (item.squad = getNewVal(item.squad))
               : 0
@@ -454,7 +452,7 @@ export default {
       const reg = /int\.soccerway\.com\/players\//;
       if (reg.test(this.addPlayerURL)) {
         const { data } = await this.$store.dispatch("GET_PLAYER_DATA", {
-          url: this.addPlayerURL
+          url: this.addPlayerURL,
         });
         this.playerData = data;
         this.playerMatches = data.matches;
@@ -466,7 +464,7 @@ export default {
     addPlayer() {
       const player = {
         ...this.playerData.player,
-        ...this.playerData.matches[this.addPlayerMatch]
+        ...this.playerData.matches[this.addPlayerMatch],
       };
       this.addPlayerURL = "";
       this.playerMatches = [];
@@ -487,7 +485,7 @@ export default {
       let color;
       if (this.team.matches[matchNumber].squad !== undefined) {
         const playerName = this.getName(player.name);
-        this.team.matches[matchNumber].squad.forEach(item => {
+        this.team.matches[matchNumber].squad.forEach((item) => {
           const itemName = this.getName(item.name);
           if (playerName === itemName) {
             if (item.squad === "squad") {
@@ -506,7 +504,7 @@ export default {
       let color;
       if (this.team.matches[matchNumber].addsquad !== undefined) {
         const playerName = this.getName(player.name);
-        this.team.matches[matchNumber].addsquad.forEach(item => {
+        this.team.matches[matchNumber].addsquad.forEach((item) => {
           if (item.shirtnumber === 0) {
             const itemName = this.getName(item.name);
             if (playerName === itemName) {
@@ -539,11 +537,11 @@ export default {
         this.getPlayerPrice(player, this.lineupPrice)
       );
       return this.price_max > 0 && price === this.price_max ? true : false;
-    }
+    },
   },
   computed: {
     styleForRow() {
-      const getPlayer = player => (player ? "40px" : "");
+      const getPlayer = (player) => (player ? "40px" : "");
       const getNMBlueButtons = (NM, btn) => {
         if (NM && btn) {
           return "repeat(7, 1fr)";
@@ -555,7 +553,7 @@ export default {
           return "repeat(5, 1fr)";
         }
       };
-      const getCards = card => (card ? "repeat(8, 1fr)" : "repeat(5, 1fr)");
+      const getCards = (card) => (card ? "repeat(8, 1fr)" : "repeat(5, 1fr)");
       const getMatches = () => this.matchCount * 40 + 3;
       return `grid-template-columns: 25px 6fr ${getNMBlueButtons(
         this.NM,
@@ -567,7 +565,7 @@ export default {
     price_max() {
       let price = [];
       if (!this.isEmptyObject(this.lineupPrice)) {
-        this.lineupPrice.forEach(async item => {
+        this.lineupPrice.forEach(async (item) => {
           price.push(this.getNumber(item.price));
         });
       }
@@ -576,16 +574,16 @@ export default {
     goal_max() {
       let goals = [];
       if (!this.isEmptyObject(this.team.squad)) {
-        this.team.squad.forEach(async item => {
+        this.team.squad.forEach(async (item) => {
           goals.push(item.goals);
         });
       }
       return this.MaxOnArray(goals);
-    }
+    },
   },
   watched() {
     const mt = this.team.matches;
-  }
+  },
 };
 </script>
 
