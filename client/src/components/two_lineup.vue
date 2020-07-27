@@ -113,11 +113,13 @@ export default {
       let result = 0;
       if (lineupPrice && team) {
         team.squad.forEach((item) => {
-          item.LU === "squad" && this.isEmptyObject(item.price)
-            ? (result += Number(
-                this.getNumber(this.getPlayerPrice(item, lineupPrice))
-              ))
-            : (result += Number(this.getNumber(item.price)));
+          item.LU === "squad"
+            ? this.isEmptyObject(item.price)
+              ? (result += Number(
+                  this.getNumber(this.getPlayerPrice(item, lineupPrice))
+                ))
+              : (result += Number(this.getNumber(item.price)))
+            : null;
         });
       }
       return result;
