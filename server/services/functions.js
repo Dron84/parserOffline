@@ -322,7 +322,7 @@ const getSquad = async (URL) => {
         } = await axios.get(URL);
         let $ = cheerio.load(data);
         let stable = [];
-        const table = $("table.table.squad tbody tr");
+        const table = $("table.table.squad:nth-child(1) tbody tr");
         $(table).each((i, row) => {
             stable.push({
                 shirtnumber: $(row).find(".shirtnumber").text(),
