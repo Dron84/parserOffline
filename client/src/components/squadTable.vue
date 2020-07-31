@@ -556,7 +556,7 @@ export default {
       const getCards = (card) => (card ? "repeat(8, 25px)" : "repeat(5, 25px)");
       const getMatches = () => this.matchCount * 40 + 3;
       console.log(
-        `grid-template-columns: 25px 242px ${getNMBlueButtons(
+        `grid-template-columns: 25px 180px ${getNMBlueButtons(
           this.NM,
           this.blueButtons
         )} ${getMatches()}px repeat(2, 25px) 40px ${getCards(
@@ -564,7 +564,7 @@ export default {
         )} 65px ${getPlayer(this.players)};`
       );
 
-      return `grid-template-columns: 25px 242px ${getNMBlueButtons(
+      return `grid-template-columns: 25px 180px ${getNMBlueButtons(
         this.NM,
         this.blueButtons
       )} ${getMatches()}px repeat(2, 25px) 40px ${getCards(
@@ -674,7 +674,7 @@ export default {
     .row
       display: inline-grid
       width: auto
-      height: 25px
+      height: auto
       &.addBorder
         border: 1px solid black
       .matches

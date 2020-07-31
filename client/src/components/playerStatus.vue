@@ -22,27 +22,29 @@ export default {
       { setclass: " red_text " },
       { setclass: " red_bg_white_text " },
       { setclass: " green_text " },
-      { setclass: " yellow_text " }
-    ]
+      { setclass: " yellow_text " },
+    ],
   }),
   props: {
-    name: { type: String, default: "Name" }
+    name: { type: String, default: "Name" },
   },
   methods: {
     changeStatus(setclass) {
       this.$emit("changePlayerStatus", setclass);
       this.show = false;
       this.$store.dispatch("GET_SAVED_COLOR");
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="sass">
 @import '../assets/vars'
 .names
-  overflow: hidden
+  // overflow: hidden
   text-overflow: ellipsis
   padding: 0 5px
+  text-align: left
+  line-height: 1
 .boxes
   position: relative
   width: 100%
