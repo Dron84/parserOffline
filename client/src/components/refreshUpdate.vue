@@ -165,11 +165,7 @@ export default {
   span
     margin: 0 20px
 .refresh
-  width: 40px
-  height: 40px
   transition: all .2s linear
-  img
-    height: 40px
   &:hover
     border-bottom: 1px solid $RoundRed
     transform: scale(1.1)
@@ -177,8 +173,7 @@ export default {
 .TM
   display: flex
   align-items: center
-  width: 90px
-  height: 50px
+  width: auto
   transition: all .2s linear
   &:hover
     border-bottom: 1px solid $RoundRed
@@ -204,4 +199,23 @@ export default {
   bottom: -13px
   right: 0px
   color: #b01f16
+
+@media (min-width: 1551px)
+  .refresh
+    height: 40px
+    img
+      height: 40px
+  img
+    height: 40px
+
+@media (max-width: 1550px)
+  .refreh_update span
+    margin: 0 5px
+  .refresh
+    height: 30px
+    img
+      height: 30px
+  .TM
+    img
+      height: 30px
 </style>

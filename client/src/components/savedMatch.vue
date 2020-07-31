@@ -3,7 +3,7 @@
     <div id="accordion">
       <div class="card" v-for="(item, index) in savedMatches">
         <div class="card-header">
-          <span class="card-link">{{ item.competition }} </span>
+          <span class="card-link">{{ item.competition }}</span>
         </div>
         <div id="collapseOne" class="collapse show">
           <div class="card-body">
@@ -12,9 +12,7 @@
                 <span
                   class="list-group-item-span onHover"
                   @click="getMatch(index, id)"
-                >
-                  {{ row.teamA.name }} VS {{ row.teamB.name }}
-                </span>
+                >{{ row.teamA.name }} VS {{ row.teamB.name }}</span>
                 <span class="remove onHover" @click="removeMatch(row)">
                   <img :src="removeImg" alt />
                 </span>
@@ -37,7 +35,7 @@ export default {
       const match = { ...this.savedMatches[index] };
       const obj = {
         competition: match.competition,
-        ...match.data[id]
+        ...match.data[id],
       };
       // console.log(obj);
       this.$store.commit("SET_MATCH", obj);
@@ -47,11 +45,11 @@ export default {
       const match = [...this.$store.getters.savedMatches];
       this.$store.commit(
         "SET_SAVED_MATCHES",
-        match.filter(item =>
+        match.filter((item) =>
           item.teamA === row.teamA && item.teamB === row.teamB ? false : true
         )
       );
-    }
+    },
   },
   computed: {
     savedMatches() {
@@ -60,16 +58,16 @@ export default {
       if (!this.isEmptyObject(savedMatch)) {
         let competition = [];
         let price = {};
-        savedMatch.forEach(item => {
+        savedMatch.forEach((item) => {
           competition.push(item.competition);
           price = item.price;
         });
         competition = new Set(competition);
-        competition.forEach(item => {
+        competition.forEach((item) => {
           newMatches.push({ competition: item, data: [], price });
         });
-        newMatches.forEach(item => {
-          savedMatch.forEach(row => {
+        newMatches.forEach((item) => {
+          savedMatch.forEach((row) => {
             if (item.competition === row.competition) {
               item.data.push({ teamA: row.teamA, teamB: row.teamB });
             }
@@ -79,8 +77,8 @@ export default {
       } else {
         return [];
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

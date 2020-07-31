@@ -1,18 +1,17 @@
 <template>
   <nav class="navbar navbar-expand-md navbar-bg navbar-dark">
     <!-- Brand -->
-
     <!-- Toggler/collapsibe Button -->
-    <!-- <button
+    <button
       class="navbar-toggler"
       :class="{ collapsed: !show }"
       type="button"
       @click="show = !show"
     >
       <span class="navbar-toggler-icon"></span>
-    </button>-->
+    </button>
 
-    <!-- Navbar links -->
+    <!-- Navbar links-->
     <div class="collapse navbar-collapse" :class="{ show: show }">
       <inputsForms />
       <div class="match-count">
@@ -27,25 +26,23 @@
         />
       </div>
     </div>
-    <refreh_update style="right: 70px; position: relative;" />
+    <refreh_update class="positionCorrection" />
     <span
       @click="$emit('settingsShow')"
-      class="nav-link onHover"
-      style="right: 70px; position: relative;"
+      class="nav-link onHover positionCorrection"
       v-if="premissions === 'admin'"
     >
       <img :src="settingsImg" alt="setting img" />
     </span>
     <span
       @click="$emit('groupShow')"
-      class="nav-link onHover"
-      style="right: 70px; position: relative;"
+      class="nav-link onHover positionCorrection"
       v-if="premissions === 'admin'"
     >
       <img :src="groupImg" alt="group img" />
     </span>
 
-    <span class="nav-link onHover" @click="exit()" style="right: 70px; position: relative;">
+    <span class="nav-link onHover positionCorrection" @click="exit()">
       <img :src="exitImg" alt="exit img" />
     </span>
   </nav>
@@ -70,16 +67,16 @@ export default {
     // addListImg,
     settingsImg,
     exitImg,
-    groupImg
+    groupImg,
   }),
   methods: {
     exit() {
       this.$cookie.delete("token");
       location.reload();
-    }
+    },
   },
   props: {
-    show: { type: Boolean, default: false }
+    show: { type: Boolean, default: false },
   },
   computed: {
     matches() {
@@ -91,12 +88,12 @@ export default {
       },
       set(val) {
         this.$store.commit("matchCount", val);
-      }
+      },
     },
     premissions() {
       return this.$store.getters.premissions;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -128,4 +125,18 @@ nav
     margin-right: 10px
   .match-count-input
     width: 90px
+
+.navbar-toggler-icon
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important
+
+@media (min-width: 1551px)
+  .positionCorrection
+    right: 70px
+    position: relative
+
+@media (max-width: 1550px)
+  .positionCorrection
+    right: 0
+  .nav-link
+    padding: 1.0em 0
 </style>

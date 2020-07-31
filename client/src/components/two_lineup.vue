@@ -242,7 +242,7 @@ export default {
   align-content: start
   position: relative
   padding: 30px 10px
-  grid-template-columns: 1fr
+  width: 100%
   grid-template-rows: 1fr 50px
   grid-template-areas: "body" "header"
   .lineups_header
@@ -253,6 +253,8 @@ export default {
   .lineups_body
     grid-area: body
     display: flex
+    flex-wrap: wrap
+    // grid-template-columns: 1fr 1fr
   .match_link
     position: absolute
     display: inline-flex

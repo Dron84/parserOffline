@@ -544,23 +544,32 @@ export default {
       const getPlayer = (player) => (player ? "40px" : "");
       const getNMBlueButtons = (NM, btn) => {
         if (NM && btn) {
-          return "repeat(7, 1fr)";
+          return "repeat(7, 25px)";
         } else if (NM && !btn) {
-          return "repeat(6, 1fr)";
+          return "repeat(6, 25px)";
         } else if (!NM && btn) {
-          return "repeat(6, 1fr)";
+          return "repeat(6, 25px)";
         } else {
-          return "repeat(5, 1fr)";
+          return "repeat(5, 25px)";
         }
       };
-      const getCards = (card) => (card ? "repeat(8, 1fr)" : "repeat(5, 1fr)");
+      const getCards = (card) => (card ? "repeat(8, 25px)" : "repeat(5, 25px)");
       const getMatches = () => this.matchCount * 40 + 3;
-      return `grid-template-columns: 25px 6fr ${getNMBlueButtons(
+      console.log(
+        `grid-template-columns: 25px 242px ${getNMBlueButtons(
+          this.NM,
+          this.blueButtons
+        )} ${getMatches()}px repeat(2, 25px) 40px ${getCards(
+          this.cards
+        )} 65px ${getPlayer(this.players)};`
+      );
+
+      return `grid-template-columns: 25px 242px ${getNMBlueButtons(
         this.NM,
         this.blueButtons
-      )} ${getMatches()}px repeat(2, 1fr) 2fr ${getCards(
+      )} ${getMatches()}px repeat(2, 25px) 40px ${getCards(
         this.cards
-      )} 3fr ${getPlayer(this.players)};`;
+      )} 65px ${getPlayer(this.players)};`;
     },
     price_max() {
       let price = [];
@@ -635,7 +644,7 @@ export default {
   display: grid
   justify-content: center
   align-content: start
-  margin: 0 20px
+  margin: 0 25px
   .captions
     display: flex
     // grid-template-columns: repeat(auto-fit, minmax(290px, 1fr))
@@ -651,8 +660,8 @@ export default {
         padding: 0
         margin: 0
       img
-        height: 20px
-        width: 20px
+        height: 25px
+        width: 25px
         margin: 0 10px 0 0
         position: relative
     h5
@@ -670,7 +679,7 @@ export default {
         border: 1px solid black
       .matches
         display: grid
-        grid-template-columns: repeat(auto-fit, minmax(20px , 1fr))
+        grid-template-columns: repeat(auto-fit, minmax(25px , 1fr))
       &:hover
         background-color: rgba($RoundLightBlue,.4) !important
       div
@@ -821,5 +830,5 @@ export default {
 .playerLoader
   .preloader
     img
-      height: 20px
+      height: 25px
 </style>
