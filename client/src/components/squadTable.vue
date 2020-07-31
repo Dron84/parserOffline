@@ -341,23 +341,23 @@
       <textarea :value="team.comment" @change="$emit('setComment', $event.target.value)" />
     </div>
     <div class="footer">
-      <span class="ico" title="Status" @click="$emit('clearSavedStatus', id)">
+      <span class="ico" title="Отчистить Статус игрока" @click="$emit('clearSavedStatus', id)">
         <img :src="trashImg" alt="delete" />
       </span>
 
-      <span class="ico" title="Цвета" @click="$emit('clearSavedColor', id)">
+      <span class="ico" title="Отчистить Цвета" @click="$emit('clearSavedColor', id)">
         <img :src="trashImg" alt="delete" />
       </span>
-      <span class="ico" title="LU" @click="$emit('clearSavedLU', id)">
+      <span class="ico" title="Отчистить LU" @click="$emit('clearSavedLU', id)">
         <img :src="trashImg" alt="delete" />
       </span>
 
       <switches caption="BB" v-model="blueButtons" />
       <switches caption="NM" v-model="NM" />
 
-      <switches caption="Удалить игрока" v-model="players" />
-      <switches caption="Добавить игрока" v-model="addPlayers" />
-      <switches caption="Комментарий" v-model="comments" />
+      <switches caption="Уда.И" v-model="players" title="Удалить игрока" />
+      <switches caption="Доб.И" v-model="addPlayers" title="Добавить игрока" />
+      <switches caption="Комм" v-model="comments" title="Комментарий" />
     </div>
   </div>
 </template>
