@@ -3,22 +3,11 @@ const cheerio = require("cheerio"),
     teamslistSchema = require("./model/teamslist"),
     teamnameSchema = require("./model/teamname"),
     fs = require("fs"),
-    path = require("path");
+    path = require("path"), 
+    main_url = "https://www.transfermarkt.com";
 
-const isEmptyObject = (object) => {
-    if (object === null || object === undefined) {
-        return true;
-    } else {
-        if (Object.entries(object).length === 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-};
-const setLog = async (message, type = "log") => {
-    console[type](message);
-};
+const isEmptyObject = (object) => object === null || object === undefined ? true : Object.entries(object).length === 0 ? true : false
+const setLog = async (message, type = "log") => console[type](message)
 
 const backUpFileCreate = async () => {
     try {
@@ -44,7 +33,6 @@ const backUpFileCreate = async () => {
         throw e;
     }
 };
-const main_url = "https://www.transfermarkt.com";
 
 //отчистка БД
 const clearDB = async () => {
@@ -176,7 +164,7 @@ const getTeamByName = async (teamName) =>
 
 const checklist = async (teamname) =>
     await teamnameSchema.findOne({
-        soccerway: new RegExp(teamName, "i")
+        soccerway: new RegExp(teamname, "i")
     });
 
 const checkname = async (teamname) => {
@@ -378,25 +366,6 @@ const addFromBackup = async () => {
     } catch (e) {
         throw e;
     }
-
-    // async (err, content) => {
-    //     if (err) res.status(500).json({ message: "error: " + err });
-    //     const lists = JSON.parse(content,true);
-    //     const AddedData = (lists) =>
-    //       new Promise((resolve) => {
-    //         let arr = [];
-    //         for (const line of lists) {
-    //           const teamname = new tm_name_Schema({
-    //             soccerway: line.soccerway,
-    //             tm_name: line.tm_name,
-    //           });
-    //           teamname.save();
-    //           arr.push({ soccerway: line.soccerway, tm_name: line.tm_name });
-    //         }
-    //         resolve(arr);
-    //       });
-    //       const result = await AddedData(lists);
-    //       res.status(200).json(result);
 };
 
 const updateTeamById = async (id) => {

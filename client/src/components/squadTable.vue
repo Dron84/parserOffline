@@ -466,6 +466,7 @@ export default {
         ...this.playerData.player,
         ...this.playerData.matches[this.addPlayerMatch],
       };
+      player.name = `${player.name} (${player.team})`;
       this.addPlayerURL = "";
       this.playerMatches = [];
       this.$emit("addPlayer", player);
