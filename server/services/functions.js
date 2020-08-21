@@ -250,7 +250,7 @@ const mainData = (html) => {
         "href"
     );
     const img_href = $(
-        "#page_team_1_block_team_info_3 > div > div.logo > img"
+        "div.logo > img"
     ).attr("src");
     const country = $(
         "#page_team_1_block_team_info_3 > div > div.clearfix > dl > dd:nth-child(6)"
