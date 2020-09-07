@@ -188,7 +188,7 @@ const matchTeamsLink = async (URL) => {
         } = await axios.get(encodeURI(URL));
         const $ = cheerio.load(data);
         const competition = $(
-            "div.match_info > div > div.details > a:nth-child(3)"
+            "#page_match_1_block_match_info_5 > div > div > div.details > a:nth-child(3)"
         ).text();
         const linkA = $('#page_match_1_block_match_info_5 > div > div > div.container.left > a.team-title').attr("href");
         const linkB = $("#page_match_1_block_match_info_5 > div > div > div.container.right > a.team-title").attr("href");
