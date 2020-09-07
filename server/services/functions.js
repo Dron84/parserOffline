@@ -167,8 +167,8 @@ const saveLineupStatus = async (teamsId, shirtnumber, lineupStatus) => {
 
 //Проверка URL на соответсвие матчу или команде --- check url from match or team
 const checkURL = async (URL) => {
-    const regMatches = /int\.soccerway\.com\/matches\//gi;
-    const regTeams = /int\.soccerway\.com\/teams\//gi;
+    const regMatches = /\/matches\//gi;
+    const regTeams = /\/teams\//gi;
     if (regTeams.test(URL)) {
         return await teamParse(URL);
     } else if (regMatches.test(URL)) {
@@ -187,15 +187,11 @@ const matchTeamsLink = async (URL) => {
             data
         } = await axios.get(encodeURI(URL));
         const $ = cheerio.load(data);
-        const competition = $(
-            "#page_match_1_block_match_info_5 > div > div > div.details > a:nth-child(3)"
-        ).text();
-        const linkA = $(
-            "#page_match_1_block_match_info_5 > div > div > div.container.left a.team-title"
-        ).attr("href");
-        const linkB = $(
-            "#page_match_1_block_match_info_5 > div > div > div.container.right a.team-title"
-        ).attr("href");
+        // const competition = $(
+        //     "div.match_info > div > div.details > a:nth-child(3)"
+        // ).text();
+        const linkA = $('#page_match_1_block_match_info_5 > div > div > div.container.left > a.team-title').attr("href");
+        const linkB = $("#page_match_1_block_match_info_5 > div > div > div.container.right > a.team-title").attr("href");
         // console.log("linkA", linkA);
         // console.log("linkB", linkB);
         const teamA = teamParse(SITE_URL + linkA);
@@ -204,7 +200,7 @@ const matchTeamsLink = async (URL) => {
         return {
             teamA: all[0],
             teamB: all[1],
-            competition,
+            // competition,
         };
     } catch (e) {
         throw new Error("Can`t get match");
@@ -245,16 +241,10 @@ const teamParse = async (URL) => {
 //Отбор главных данных --- filter main data
 const mainData = (html) => {
     const $ = cheerio.load(html);
-    const name = $("#team_id_selector option[selected='selected']").text();
-    const offsite = $("#page_team_1_block_team_info_3 > div > p > a").attr(
-        "href"
-    );
-    const img_href = $(
-        "div.logo > img"
-    ).attr("src");
-    const country = $(
-        "#page_team_1_block_team_info_3 > div > div.clearfix > dl > dd:nth-child(6)"
-    ).text();
+    const name = $("#subheading > h1").text();
+    const offsite = $("#page_team_1_block_team_info_3 > div > p > a").attr("href");
+    const img_href = $("div.logo > img").attr("src");
+    const country = $("#page_team_1_block_team_info_3 > div > div.clearfix > dl > dd:nth-child(6)").text();
     // console.log({ name, offsite, img_href, country });
     return {
         name,
@@ -391,10 +381,10 @@ const getMatchesTeamSquad = async (link, TEAM_NAME) => {
             let shirtnumber =
                 match(match_row).find("td.shirtnumber").text().trim() || 0;
             let flag = match(match_row)
-                .find("td.player.large-link p:nth-child(1) a")
+                .find("td.player.large-link > p.substitute-in > a")
                 .attr("class");
             let name = match(match_row)
-                .find("td.player.large-link p:nth-child(1) a")
+                .find("td.player.large-link > p.substitute-in > a")
                 .text()
                 .trim();
             if (name != "") {
