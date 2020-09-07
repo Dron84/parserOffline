@@ -37,7 +37,7 @@ export default {
         competition: match.competition,
         ...match.data[id],
       };
-      // console.log(obj);
+      document.title = `${obj.teamA.name} VS ${obj.teamB.name}`;
       this.$store.commit("SET_MATCH", obj);
       this.$store.dispatch("GET_SAVED_COLOR");
     },

@@ -80,14 +80,14 @@ export default {
     priceLinkTeamA: "",
     priceLinkTeamB: "",
     priceTeamAName: "",
-    priceTeamBName: ""
+    priceTeamBName: "",
   }),
   methods: {
     async AddPrice(team) {
       if (team === "teamA") {
         const price = await this.$store.dispatch("ADD_TM_NAME", {
           soccerway: this.priceTeamAName,
-          tm_link: this.priceLinkTeamA
+          tm_link: this.priceLinkTeamA,
         });
         this.$store.commit("SET_PRICE", price);
         this.addPriceTeamA = false;
@@ -96,7 +96,7 @@ export default {
       } else if (team === "teamB") {
         const price = await this.$store.dispatch("ADD_TM_NAME", {
           soccerway: this.priceTeamBName,
-          tm_link: this.priceLinkTeamB
+          tm_link: this.priceLinkTeamB,
         });
         this.$store.commit("SET_PRICE", price);
         this.addPriceTeamB = false;
@@ -127,10 +127,11 @@ export default {
         // this.$store.commit("SET_MATCH", { teamA: {}, teamB: {} });
         const match = await this.$store.dispatch("PARSE_URL", {
           url: this.match,
-          team: this.what[0]
+          team: this.what[0],
         });
+        document.title = `${match.teamA.name} VS ${match.teamB.name}`;
         this.$store.dispatch("ADD_SAVED_MATCHES", {
-          ...match
+          ...match,
         });
         this.match = "";
         this.CheckPriceByTeam(this.getMatch.teamA, this.getMatch.teamB);
@@ -141,11 +142,11 @@ export default {
       if (this.teamA !== "" && this.teamB !== "") {
         const teamA = await this.$store.dispatch("PARSE_URL", {
           url: this.teamA,
-          team: this.what[1]
+          team: this.what[1],
         });
         const teamB = await this.$store.dispatch("PARSE_URL", {
           url: this.teamB,
-          team: this.what[2]
+          team: this.what[2],
         });
         this.$store.commit("ADD_SAVED_MATCHES", { ...this.getMatch });
         this.teamA = "";
@@ -153,7 +154,7 @@ export default {
         this.CheckPriceByTeam(teamA, teamB);
         this.$store.dispatch("GET_SAVED_COLOR");
       }
-    }
+    },
   },
   computed: {
     matches() {
@@ -169,8 +170,8 @@ export default {
     },
     getMatch() {
       return this.$store.getters.matches;
-    }
-  }
+    },
+  },
 };
 </script>
 

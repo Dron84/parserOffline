@@ -187,9 +187,9 @@ const matchTeamsLink = async (URL) => {
             data
         } = await axios.get(encodeURI(URL));
         const $ = cheerio.load(data);
-        // const competition = $(
-        //     "div.match_info > div > div.details > a:nth-child(3)"
-        // ).text();
+        const competition = $(
+            "div.match_info > div > div.details > a:nth-child(3)"
+        ).text();
         const linkA = $('#page_match_1_block_match_info_5 > div > div > div.container.left > a.team-title').attr("href");
         const linkB = $("#page_match_1_block_match_info_5 > div > div > div.container.right > a.team-title").attr("href");
         // console.log("linkA", linkA);
@@ -200,7 +200,7 @@ const matchTeamsLink = async (URL) => {
         return {
             teamA: all[0],
             teamB: all[1],
-            // competition,
+            competition,
         };
     } catch (e) {
         throw new Error("Can`t get match");
