@@ -241,7 +241,7 @@ const teamParse = async (URL) => {
 //Отбор главных данных --- filter main data
 const mainData = (html) => {
     const $ = cheerio.load(html);
-    const name = $("#subheading > h1").text();
+    const name = $("#team_id_selector option[selected='selected']").text();
     const offsite = $("#page_team_1_block_team_info_3 > div > p > a").attr("href");
     const img_href = $("div.logo > img").attr("src");
     const country = $("#page_team_1_block_team_info_3 > div > div.clearfix > dl > dd:nth-child(6)").text();
