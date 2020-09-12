@@ -241,7 +241,7 @@ const teamParse = async (URL) => {
 //Отбор главных данных --- filter main data
 const mainData = (html) => {
     const $ = cheerio.load(html);
-    const name = $("#team_id_selector option[selected='selected']").text();
+    const name = $("#team_id_selector option[selected='selected']").text() ? $("#team_id_selector option[selected='selected']").text() : $("#subheading > h1").text()
     const offsite = $("#page_team_1_block_team_info_3 > div > p > a").attr("href");
     const img_href = $("div.logo > img").attr("src");
     const country = $("#page_team_1_block_team_info_3 > div > div.clearfix > dl > dd:nth-child(6)").text();
@@ -315,6 +315,7 @@ const getSquad = async (URL) => {
         const table = $("table.table.squad:nth-child(1) tbody tr");
         $(table).each((i, row) => {
             stable.push({
+                link: $(row).find("td.name.large-link > a").attr('href'),
                 shirtnumber: $(row).find(".shirtnumber").text(),
                 name: $(row).find(".name.large-link").text(),
                 flag: $(row).find(".flag span").attr("class"),

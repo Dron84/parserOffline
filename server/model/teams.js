@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const squadShirt = new mongoose.Schema({
+    link: {type: String, default: null},
     shirtnumber: {type: Number},
     name: {type: String},
     flag: {type: String},
@@ -7,6 +8,7 @@ const squadShirt = new mongoose.Schema({
 })
 
 const squadRow = new mongoose.Schema({
+    link: {type: String, default: null},
     shirtnumber: {type: Number},
     name: {type: String},
     flag: {type: String},

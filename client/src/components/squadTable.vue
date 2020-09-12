@@ -65,13 +65,16 @@
         :style="styleForRow"
         :class="{'addBorder': addBorder}"
       >
-        <div class="columns fs17px">{{ rows.shirtnumber }}</div>
+        <div class="columns fs17px">
+          <a
+            :href="`//int.soccerway.com/${rows.link}`"
+            target="_blank"
+          >{{ rows.shirtnumber ? rows.shirtnumber : '_' }}</a>
+        </div>
         <playerStatus
           :name="rows.name"
           :class="getGamerStatus(rows)"
-          @changePlayerStatus="
-            $emit('changePlayerStatus', { data: $event, index })
-          "
+          @changePlayerStatus="$emit('changePlayerStatus', { data: $event, index })"
         />
         <gamerStatus
           v-model="rows.gamerStatus"

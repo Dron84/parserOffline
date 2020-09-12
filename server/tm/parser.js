@@ -101,8 +101,7 @@ const getSquadByHTML = async (HTML) => {
         const $ = cheerio.load(HTML);
         const Path_list = "#yw1 > table > tbody  tr";
         const Path_number = "td:nth-child(1) > div.rn_nummer";
-        const Path_name =
-            "td:nth-child(2) > table > tbody > tr:nth-child(1) > td.hauptlink > div:nth-child(1) > span a";
+        const Path_name ="td:nth-child(2) > table > tbody > tr:nth-child(1) > td.hauptlink > div:nth-child(1) > span a";
         const Path_bday = "td:nth-child(4)";
         const Path_price = "td:nth-child(6)";
         const getListInfo = () => {
@@ -137,7 +136,7 @@ const getSquadByHTML = async (HTML) => {
         const result = await getListInfo();
         return result;
     } catch (e) {
-        throw e.message;
+        throw `Can't get squad by html`;
     }
 };
 
@@ -198,6 +197,7 @@ const addTM = async (TM) => {
         const {
             data
         } = await axios.get(encodeURI(URL));
+        // console.log(`data`,data)
         const $ = cheerio.load(data);
         const logo_src = $(
             "#verein_head > div > div.dataHeader.dataExtended > div.dataBild > img"
@@ -210,7 +210,13 @@ const addTM = async (TM) => {
             .match(TMVReg)[0];
         const href = URL;
         const squad_list = await getSquadByHTML(data);
-        // console.log(total_market_value);
+        console.log(
+            logo_src,
+            total_market_value,
+            href,
+            name,
+            squad_list,
+        );
         if (
             !isEmptyObject(href) &&
             !isEmptyObject(name) &&
@@ -224,7 +230,7 @@ const addTM = async (TM) => {
                 name,
                 squad_list,
             };
-            // console.log("obj", obj);
+            console.log("obj", obj);
             const newobj = new teamslistSchema(obj);
             backUpFileCreate();
             return newobj.save();
