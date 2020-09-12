@@ -65,12 +65,9 @@
         :style="styleForRow"
         :class="{'addBorder': addBorder}"
       >
-        <div class="columns fs17px">
-          <a
-            :href="`//int.soccerway.com/${rows.link}`"
-            target="_blank"
-          >{{ rows.shirtnumber ? rows.shirtnumber : '_' }}</a>
-        </div>
+        <a :href="`//int.soccerway.com/${rows.link}`" target="_blank">
+          <div class="columns fs17px">{{ rows.shirtnumber ? rows.shirtnumber : '_' }}</div>
+        </a>
         <playerStatus
           :name="rows.name"
           :class="getGamerStatus(rows)"
