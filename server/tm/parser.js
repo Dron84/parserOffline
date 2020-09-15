@@ -144,7 +144,7 @@ const getSquadByHTML = async (HTML) => {
 const getTeamName = async (name) => {
     const list = await teamnameSchema
         .find({
-            soccerway: name.toLowerCase()
+            soccerway: name
         })
         .exec();
     if (!isEmptyObject(list)) {
@@ -158,12 +158,12 @@ const getTeamName = async (name) => {
 // получаем данные команды по имени
 const getTeamByName = async (teamName) =>
     await teamslistSchema.findOne({
-        name: teamName.toLowerCase()
+        name: new RegExp(teamName, "i")
     }).exec();
 
 const checklist = async (teamname) =>
     await teamnameSchema.findOne({
-        soccerway: teamName.toLowerCase()
+        soccerway: new RegExp(teamname, "i")
     });
 
 const checkname = async (teamname) => {
@@ -245,7 +245,7 @@ const searchTeam = async (team) => {
     const getingTeamsAndSquads = async (teamname) => {
         const find = await teamslistSchema
             .findOne({
-                name: teamname.toLowerCase()
+                name: new RegExp(teamname, "ig")
             })
             .exec();
         if (isEmptyObject(find)) {
