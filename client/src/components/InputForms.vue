@@ -129,7 +129,7 @@ export default {
           url: this.match,
           team: this.what[0],
         });
-        document.title = `${match.teamA.name} VS ${match.teamB.name}`;
+        document.title = `${match.teamA.name} - ${match.teamB.name}`;
         this.$store.dispatch("ADD_SAVED_MATCHES", {
           ...match,
         });
