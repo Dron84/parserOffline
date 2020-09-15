@@ -12,7 +12,7 @@
                 <span
                   class="list-group-item-span onHover"
                   @click="getMatch(index, id)"
-                >{{ row.teamA.name }} VS {{ row.teamB.name }}</span>
+                >{{ row.teamA.name }} - {{ row.teamB.name }}</span>
                 <span class="remove onHover" @click="removeMatch(row)">
                   <img :src="removeImg" alt />
                 </span>
@@ -37,7 +37,7 @@ export default {
         competition: match.competition,
         ...match.data[id],
       };
-      document.title = `${obj.teamA.name} VS ${obj.teamB.name}`;
+      document.title = `${obj.teamA.name} - ${obj.teamB.name}`;
       this.$store.commit("SET_MATCH", obj);
       this.$store.dispatch("GET_SAVED_COLOR");
     },

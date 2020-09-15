@@ -65,7 +65,7 @@
         :style="styleForRow"
         :class="{'addBorder': addBorder}"
       >
-        <a :href="`//int.soccerway.com/${rows.link}`" target="_blank">
+        <a :href="`//int.soccerway.com/${rows.link}`" target="_blank" class="links">
           <div class="columns fs17px">{{ rows.shirtnumber ? rows.shirtnumber : '_' }}</div>
         </a>
         <playerStatus
@@ -832,4 +832,7 @@ export default {
   .preloader
     img
       height: 25px
+a.links
+  text-decoration: none
+  color: black
 </style>

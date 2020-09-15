@@ -88,7 +88,7 @@ const getNumber = (val) => {
 
 const getPlayerPrice = (player, lineupPrice) => {
     if (lineupPrice) {
-        let price = "N/D";
+        let price = "0";
         const playerName = getName(player.name);
         lineupPrice.forEach(item => {
             const itemName = getName(item.name);

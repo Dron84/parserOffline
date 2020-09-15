@@ -144,7 +144,7 @@ const getSquadByHTML = async (HTML) => {
 const getTeamName = async (name) => {
     const list = await teamnameSchema
         .find({
-            soccerway: new RegExp(name, "i")
+            soccerway: new RegExp(`^${name}$`, "i")
         })
         .exec();
     if (!isEmptyObject(list)) {
