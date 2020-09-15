@@ -6,6 +6,7 @@
       <li v-for="(item,id) in priceList" :key="id" @click="setPrice(item,id)">
         <span>{{item.number}}</span>
         <span>{{item.name}}</span>
+        <span>({{getBday(item)}})</span>
         <span>{{item.price}}</span>
       </li>
     </ul>
@@ -24,6 +25,10 @@ export default {
     index: { type: Number },
   },
   methods: {
+    getBday(item) {
+      const reg = /(\d+)/;
+      return item.bday.match(reg)[1];
+    },
     setPrice(item, id) {
       this.$store.dispatch("CHANGE_PRICE", {
         player: this.row,
@@ -53,7 +58,7 @@ export default {
   .box
     padding: 30px 10px 10px 10px
     list-style: none
-    width: 300px
+    width: 400px
     position: absolute
     top: 0
     left: -50%
@@ -74,7 +79,7 @@ export default {
     li
       text-align: left
       display: grid
-      grid-template-columns: 30px 1fr 90px
+      grid-template-columns: 30px 1fr 45px 90px
       border: 1px solid transparent
 
       &:hover
