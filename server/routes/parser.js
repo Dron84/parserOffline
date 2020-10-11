@@ -1,6 +1,7 @@
 const express = require("express"),
     routes = express.Router(),
-    tm = require("./tm");
+    tm = require("./tm"),
+    {DBStorage} = require('../services/storage')
 
 const {
     checkURL,
@@ -25,6 +26,26 @@ routes.post("/login", async (req, res) => {
         });
     }
 });
+routes.post('/storage', async (req,res)=>{ 
+    try{
+        console.log(`req.body`,req.body)
+        const dbstorage = new DBStorage(req.body)
+        res.status(200).json(await dbstorage.save())
+    }catch(e){
+        console.log(`error:`,e)
+        res.status(500).json({mmessage: e})
+    }
+})
+routes.get('/storage/:user_id', async (req,res)=>{
+    try{
+        const {user_id} = req.params
+        const dbstorage = new DBStorage({user_id})
+        res.status(200).json(await dbstorage.get())
+    }catch(e){
+        console.log(`error:`,e)
+        res.status(500).json({mmessage: e})
+    }
+})
 
 routes.post("/user", async (req, res) => {
     try {
@@ -35,6 +56,8 @@ routes.post("/user", async (req, res) => {
         });
     }
 });
+
+
 routes.get("/user", async (req, res) => {
     try {
         res.status(200).json(await userList());

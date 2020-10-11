@@ -114,10 +114,11 @@ export default {
       this.TMMessage = "";
       const matches = { ...this.matches };
       const { data } = await this.$axios.get(`/tm`);
-      const price = this.$store.getters.price;
+     
 
       const UpdateInfo = async (id) => {
         try {
+           const price = this.$store.getters.price;
           this.$store.commit(
             "SET_ALL_PRICE",
             price.filter((item) => item._id !== id)

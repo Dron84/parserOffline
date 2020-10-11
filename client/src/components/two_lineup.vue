@@ -141,7 +141,17 @@ export default {
         const filtred = price.filter((item) =>
           reg.test(item.name) ? true : false
         );
-        return !this.isEmptyObject(filtred) ? filtred[0].squad_list : [];
+        const getSortSquadLIst = (filtred) =>{
+          return filtred.squad_list.sort((a,b)=>{
+            let nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase()
+            if (nameA < nameB) //сортируем строки по возрастанию
+              return -1
+            if (nameA > nameB)
+              return 1
+            return 0 // Никакой сортировки
+          })
+        }
+        return !this.isEmptyObject(filtred) ? getSortSquadLIst(filtred[0]) : [];
       };
       return !this.isEmptyObject(this.$store.getters.price)
         ? getPrice(this.$store.getters.price)

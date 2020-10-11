@@ -6,7 +6,7 @@
       <li v-for="(item,id) in priceList" :key="id" @click="setPrice(item,id)">
         <span>{{item.number}}</span>
         <span>{{item.name}}</span>
-        <span>({{getBday(item)}})</span>
+        <span v-show="item.bday!==undefined && item.bday!==null">({{getBday(item)}})</span>
         <span>{{item.price}}</span>
       </li>
     </ul>

@@ -1,7 +1,12 @@
 <template>
   <div id="app">
     <div class="main-layout" v-if="tokenState !== undefined">
-      <navbars @settingsShow="settingShow" :show="setting" @groupShow="groupShow" />
+      <navbars
+        @settingsShow="settingShow"
+        :show="setting"
+        @groupShow="groupShow"
+       
+      />
       <asides />
       <tmName v-if="setting && !group_show" />
       <group v-else-if="group_show && !setting" />
@@ -26,7 +31,8 @@ export default {
   data: () => ({
     images: null,
     setting: false,
-    group_show: false
+    group_show: false,
+    savedData: false,
   }),
   components: { asides, navbars, Login, tmName, group },
   methods: {
@@ -37,6 +43,14 @@ export default {
     groupShow() {
       this.group_show = !this.group_show;
       this.setting = false;
+    },
+    async syncGetInfo(){
+      const user_id = localStorage.getItem('user_id')
+      const {data} = await this.$axios.get(`/storage/${user_id}`)
+      console.log(`data`,data)
+      data.map(item=>{
+        localStorage.setItem(item.key,item.data)
+      })
     }
   },
   computed: {
@@ -48,12 +62,18 @@ export default {
     },
     tokenState() {
       return this.$token;
-    }
+    },
   },
-  created() {
+  async created() {
+    
+    await this.syncGetInfo()
+    window.addEventListener('blur',()=>{
+      console.log(`mouse out`)
+      this.sync()
+    })
     this.$store.dispatch("GET_SAVED_MATCHES_FROM_LOCAL_STORAGE");
     this.$store.dispatch("GET_MATCH_PRICES_FROM_LOCAL_STORAGE");
-  }
+  },
 };
 </script>
 

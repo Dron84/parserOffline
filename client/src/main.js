@@ -121,6 +121,31 @@ if (
     }
 }
 
+
+Vue.prototype.sync = () => {
+    const storageKeys = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      storageKeys.push(localStorage.key(i));
+    }
+    const user_id = localStorage.getItem("user_id");
+    storageKeys.map((item) => {
+      if (item !== "matchPrices" && item !== 'loglevel:webpack-dev-server' && item!=='user_id') {
+        $axios
+          .post("storage", {
+            user_id,
+            key: item,
+            data: localStorage.getItem(item),
+            newData: true,
+          })
+          .then((res) => {
+            res.status === 200 && console.log('Data send to server and saved');
+          });
+      }
+    });
+  },
+
+
+
 new Vue({
     store,
     router,

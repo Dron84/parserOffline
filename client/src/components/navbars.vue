@@ -26,6 +26,7 @@
         />
       </div>
     </div>
+    
     <refreh_update class="positionCorrection" />
     <span
       @click="$emit('settingsShow')"

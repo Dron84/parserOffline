@@ -109,12 +109,14 @@ const LoginIn = async (UserInfo) => {
                 token: base64.encode(
                     base64.encode(
                         JSON.stringify({
+                            id: info._id,
                             email: info.email,
                             premission: info.premission,
                             exptime
                         })
                     )
                 ),
+                id: info._id,
             };
         } else {
             return {
