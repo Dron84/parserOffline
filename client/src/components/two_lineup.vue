@@ -234,6 +234,8 @@ export default {
         matches.teamB !== undefined &&
         getMatches()
       );
+
+      // return matches
     },
   },
   props: {
