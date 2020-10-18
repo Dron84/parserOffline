@@ -41,7 +41,8 @@ const store = new Vuex.Store({
                 return !isEmptyObject(filtred) ? filtred[0] : [];
             };
             const getSortSquadLIst = (filtred) =>{
-                return filtred.squad_list.sort((a,b)=>{
+                return !isEmptyObject(filtred) 
+                ? filtred.squad_list.sort((a,b)=>{
                     let nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase()
                     if (nameA < nameB) //сортируем строки по возрастанию
                       return -1
@@ -49,11 +50,9 @@ const store = new Vuex.Store({
                       return 1
                     return 0 // Никакой сортировки
                   })
+                : []
             }
-            const priceSquadList = (teamName)=>{
-                console.log(`teamName`,teamName)
-                return 
-              }
+        
             const newObj = {...obj}
             // state.match = obj;
             if (!isEmptyObject(obj.teamA) && !isEmptyObject(obj.teamB)) {
@@ -101,11 +100,7 @@ const store = new Vuex.Store({
                 localStorage.setItem("savedMatches", "[]");
             }
         },
-        async GET_MATCH_PRICES_FROM_LOCAL_STORAGE(state) {
-            const price = JSON.parse(localStorage.getItem("matchPrices"));
-
-            !isEmptyObject(price) ? price.map((item) => state.commit("SET_PRICE", item)) : state.dispatch('GET_SERVER_PRICE')
-        },
+       
         async GET_SERVER_PRICE(state) {
             const {
                 data

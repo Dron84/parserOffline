@@ -140,7 +140,7 @@ export default {
           UpdateInfo(item._id);
       });
       this.$store.dispatch("GET_SERVER_PRICE");
-      // this.$store.dispatch("GET_MATCH_PRICES_FROM_LOCAL_STORAGE");
+      // this.$store.dispatch("GET_SERVER_PRICE");
     },
   },
   computed: {

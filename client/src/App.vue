@@ -72,7 +72,7 @@ export default {
       this.sync()
     })
     this.$store.dispatch("GET_SAVED_MATCHES_FROM_LOCAL_STORAGE");
-    this.$store.dispatch("GET_MATCH_PRICES_FROM_LOCAL_STORAGE");
+    this.$store.dispatch("GET_SERVER_PRICE");
   },
 };
 </script>
