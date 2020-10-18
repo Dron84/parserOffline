@@ -556,14 +556,14 @@ export default {
       };
       const getCards = (card) => (card ? "repeat(8, 25px)" : "repeat(5, 25px)");
       const getMatches = () => this.matchCount * 40 + 3;
-      console.log(
-        `grid-template-columns: 25px 180px ${getNMBlueButtons(
-          this.NM,
-          this.blueButtons
-        )} ${getMatches()}px repeat(2, 25px) 40px ${getCards(
-          this.cards
-        )} 65px ${getPlayer(this.players)};`
-      );
+      // console.log(
+      //   `grid-template-columns: 25px 180px ${getNMBlueButtons(
+      //     this.NM,
+      //     this.blueButtons
+      //   )} ${getMatches()}px repeat(2, 25px) 40px ${getCards(
+      //     this.cards
+      //   )} 65px ${getPlayer(this.players)};`
+      // );
 
       return `grid-template-columns: 25px 180px ${getNMBlueButtons(
         this.NM,

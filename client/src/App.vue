@@ -47,7 +47,7 @@ export default {
     async syncGetInfo(){
       const user_id = localStorage.getItem('user_id')
       const {data} = await this.$axios.get(`/storage/${user_id}`)
-      console.log(`data`,data)
+      // console.log(`data`,data)
       data.map(item=>{
         localStorage.setItem(item.key,item.data)
       })
@@ -68,7 +68,7 @@ export default {
     // TODO 'sync is off' 'uncomment to sync is on'
     await this.syncGetInfo()
     window.addEventListener('blur',()=>{
-      console.log(`mouse out`)
+      // console.log(`mouse out`)
       this.sync()
     })
     this.$store.dispatch("GET_SAVED_MATCHES_FROM_LOCAL_STORAGE");

@@ -46,7 +46,7 @@ export default {
         password: this.passBase,
       });
       if (data.message === undefined) {
-        console.log(`data`,data)
+        // console.log(`data`,data)
         localStorage.setItem('user_id',data.id)
         this.$cookie.set("token", data.token, 14);
         location.reload();

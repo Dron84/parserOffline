@@ -202,7 +202,7 @@ const store = new Vuex.Store({
                 team = match.teamB.squad;
             }
             team.forEach((item) => {
-                console.log(item.name);
+                // console.log(item.name);
                 localStorage.removeItem(
                     `COLOR_${id}::${item.shirtnumber}::black::${item.name}`
                 );
@@ -251,7 +251,7 @@ const store = new Vuex.Store({
                 name,
                 val
             } = obj;
-            console.log('obj', obj)
+            // console.log('obj', obj)
             localStorage.setItem(`playerStatus${teamsId}::${id}::${name}`, val);
         },
         async SAVE_COLOR(state, obj) {

@@ -73,6 +73,7 @@ export default {
   methods: {
     exit() {
       this.$cookie.delete("token");
+      localStorage.removeItem('user_id')
       location.reload();
     },
   },

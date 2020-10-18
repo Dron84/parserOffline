@@ -134,6 +134,7 @@ export default {
         this.$store.dispatch("ADD_SAVED_MATCHES", {
           ...match,
         });
+        this.$store.commit('SET_MATCH', match)
         this.match = "";
         this.CheckPriceByTeam(this.getMatch.teamA, this.getMatch.teamB);
         this.$store.dispatch("GET_SAVED_COLOR");

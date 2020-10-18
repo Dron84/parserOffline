@@ -90,7 +90,7 @@ export default {
           // const reg = new RegExp(nameString, "ig");
           let e;
           this.team.squad.forEach((item) => {
-            console.log(nameString, getName(item.name));
+            // console.log(nameString, getName(item.name));
             if (nameString === getName(item.name)) {
               this.$store.dispatch("SAVE_LINEUP", {
                 shirtnumber: item.shirtnumber,
@@ -111,11 +111,11 @@ export default {
             // const regLatin = new RegExp(, "ig");
             // console.log("regLatin", regLatin);
             this.team.squad.forEach((item) => {
-              console.log(
-                "latinize",
-                latinize(nameString),
-                latinize(item.name)
-              );
+              // console.log(
+              //   "latinize",
+              //   latinize(nameString),
+              //   latinize(item.name)
+              // );
               if (latinize(nameString) == latinize(getName(item.name))) {
                 this.$store.dispatch("SAVE_LINEUP", {
                   shirtnumber: item.shirtnumber,
