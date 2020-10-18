@@ -32,6 +32,7 @@ export default {
   data: () => ({ removeImg, ShowLigas: 0 }),
   methods: {
     getMatch(index, id) {
+      // this.$store.commit("SET_MATCH", {competition: null, teamA: null, teamB: null});
       const match = { ...this.savedMatches[index] };
       const obj = {
         competition: match.competition,

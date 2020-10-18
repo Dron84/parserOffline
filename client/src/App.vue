@@ -65,12 +65,12 @@ export default {
     },
   },
   async created() {
-    //TODO 'sync is off' 'uncomment to sync is on'
-    // await this.syncGetInfo()
-    // window.addEventListener('blur',()=>{
-    //   console.log(`mouse out`)
-    //   this.sync()
-    // })
+    // TODO 'sync is off' 'uncomment to sync is on'
+    await this.syncGetInfo()
+    window.addEventListener('blur',()=>{
+      console.log(`mouse out`)
+      this.sync()
+    })
     this.$store.dispatch("GET_SAVED_MATCHES_FROM_LOCAL_STORAGE");
     this.$store.dispatch("GET_MATCH_PRICES_FROM_LOCAL_STORAGE");
   },

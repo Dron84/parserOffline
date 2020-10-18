@@ -103,6 +103,7 @@ export default {
         this.priceTeamBName = "";
         this.priceLinkTeamB = "";
       }
+      this.$store.commit('SET_MATCH', this.getMatch)
     },
     async CheckPriceByTeam(teamA, teamB) {
       const PA = await this.$store.dispatch("CHECK_PRICE", teamA.name);

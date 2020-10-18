@@ -33,7 +33,29 @@ const store = new Vuex.Store({
             }
         },
         async SET_MATCH(state, obj) {
-            state.match = obj;
+            const getPrice = (teamName) => {
+                const reg = new RegExp(teamName, "ig");
+                const filtred = state.price.filter((item) =>
+                    reg.test(item.name) ? true : false
+                );
+                return !isEmptyObject(filtred) ? filtred[0] : [];
+            };
+            const getSortSquadLIst = (filtred) =>{
+                return filtred.squad_list.sort((a,b)=>{
+                    let nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase()
+                    if (nameA < nameB) //сортируем строки по возрастанию
+                      return -1
+                    if (nameA > nameB)
+                      return 1
+                    return 0 // Никакой сортировки
+                  })
+            }
+            const priceSquadList = (teamName)=>{
+                console.log(`teamName`,teamName)
+                return 
+              }
+            const newObj = {...obj}
+            // state.match = obj;
             if (!isEmptyObject(obj.teamA) && !isEmptyObject(obj.teamB)) {
                 const squadA = obj.teamA.squad.sort(
                     (a, b) => b["game-minutes"] - a["game-minutes"]
@@ -41,9 +63,15 @@ const store = new Vuex.Store({
                 const squadB = obj.teamB.squad.sort(
                     (a, b) => b["game-minutes"] - a["game-minutes"]
                 );
-                state.match.teamA.squad = [...squadA];
-                state.match.teamB.squad = [...squadB];
+                // state.match.teamA.squad = [...squadA];
+                // state.match.teamB.squad = [...squadB];
+                newObj.teamA.squad = [...squadA];
+                newObj.teamA.priceSquadList = !isEmptyObject(state.price) ? getSortSquadLIst(getPrice(newObj.teamA.name)) : []
+                newObj.teamB.squad = [...squadB];
+                newObj.teamB.priceSquadList = !isEmptyObject(state.price) ? getSortSquadLIst(getPrice(newObj.teamB.name)) : []
             }
+            state.match = newObj
+
         },
         SET_PRICE(state, obj) {
             state.price.push(obj);

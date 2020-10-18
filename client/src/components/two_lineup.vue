@@ -11,7 +11,7 @@
         :id="matches.teamA._id"
         :teamName="matches.teamA.name"
         :teamPrice="price(matches.teamA.name)"
-        :lineupPrice="priceSquadList(matches.teamA.name)"
+        :lineupPrice="matches.teamA.priceSquadList"
         @clearSavedColor="$emit('clearSavedColor', $event)"
         @clearSavedLU="$emit('clearSavedLU', $event)"
         @clearSavedStatus="$emit('clearSavedStatus', $event)"
@@ -19,7 +19,7 @@
         @removePlayer="removePlayer(matches.teamA._id, $event)"
         @removeAddPlayer="removeAddPlayer(matches.teamA._id, $event)"
         @addPlayer="addPlayer(matches.teamA._id, $event)"
-        :priceOfLineup="selectLineupPrice(matches.teamA, priceSquadList(matches.teamA.name))"
+        :priceOfLineup="selectLineupPrice(matches.teamA, matches.teamA.priceSquadList)"
         @changePlayerStatus="changePlayerStatus(matches.teamA, $event)"
         @yellowCard="yellowCard(matches.teamA, $event)"
         @setMatchSquad="setMatchSquad(matches.teamA, $event)"
@@ -35,7 +35,7 @@
         :id="matches.teamB._id"
         :teamName="matches.teamB.name"
         :teamPrice="price(matches.teamB.name)"
-        :lineupPrice="priceSquadList(matches.teamB.name)"
+        :lineupPrice="matches.teamB.priceSquadList"
         @clearSavedColor="$emit('clearSavedColor', $event)"
         @clearSavedLU="$emit('clearSavedLU', $event)"
         @clearSavedStatus="$emit('clearSavedStatus', $event)"
@@ -43,7 +43,7 @@
         @removePlayer="removePlayer(matches.teamB._id, $event)"
         @removeAddPlayer="removeAddPlayer(matches.teamB._id, $event)"
         @addPlayer="addPlayer(matches.teamB._id, $event)"
-        :priceOfLineup="selectLineupPrice(matches.teamB, priceSquadList(matches.teamB.name))"
+        :priceOfLineup="selectLineupPrice(matches.teamB, matches.teamB.priceSquadList)"
         @changePlayerStatus="changePlayerStatus(matches.teamB, $event)"
         @yellowCard="yellowCard(matches.teamB, $event)"
         @setMatchSquad="setMatchSquad(matches.teamB, $event)"
@@ -135,28 +135,7 @@ export default {
           })[0]
         : [];
     },
-    priceSquadList(teamName) {
-      const getPrice = (price) => {
-        const reg = new RegExp(teamName, "ig");
-        const filtred = price.filter((item) =>
-          reg.test(item.name) ? true : false
-        );
-        const getSortSquadLIst = (filtred) =>{
-          return filtred.squad_list.sort((a,b)=>{
-            let nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase()
-            if (nameA < nameB) //сортируем строки по возрастанию
-              return -1
-            if (nameA > nameB)
-              return 1
-            return 0 // Никакой сортировки
-          })
-        }
-        return !this.isEmptyObject(filtred) ? getSortSquadLIst(filtred[0]) : [];
-      };
-      return !this.isEmptyObject(this.$store.getters.price)
-        ? getPrice(this.$store.getters.price)
-        : [];
-    },
+    
     changePlayerStatus(team, data) {
       const match = { ...this.matches };
       const arr = () => (data.addsquad === true ? "addsquad" : "squad");
