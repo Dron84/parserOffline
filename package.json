@@ -17,7 +17,7 @@
     "compression": "^1.7.4",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
-    "moment": "^2.27.0",
+    "moment": "^2.29.2",
     "mongoose": "^5.9.19",
     "node-sass": "^4.14.1",
     "path": "^0.12.7",
